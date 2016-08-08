@@ -1,0 +1,60 @@
+<?php
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
+
+require_once (BASEPATH . 'libraries/Smarty/libs/SmartyBC.class.php');
+class CI_Smarty extends SmartyBC {
+
+	var $debug = false;
+
+	public function __construct() {
+		parent::__construct ();
+
+		$php_handling = Smarty::PHP_ALLOW;
+
+		$this->compile_dir = APPPATH . "views/templates_c";
+		$this->template_dir = APPPATH . "views/templates";
+		$this->assign ( 'APPPATH', APPPATH );
+		$this->assign ( 'BASEPATH', BASEPATH );
+
+		// Assign CodeIgniter object by reference to CI
+		if (method_exists ( $this, 'assignByRef' )) {
+			$ci = & get_instance ();
+			$this->assignByRef ( "ci", $ci );
+		}
+
+		log_message ( 'debug', "Smarty Class Initialized" );
+	}
+
+	// デバッグモードをONにするやーつ
+	function setDebug($debug = true) {
+		$this->debug = $debug;
+	}
+	function view($template, $data = array(), $return = FALSE) {
+		//デバッグモードの出力切り替え
+		if (! $this->debug) {
+			$this->error_reporting = false;
+		}
+		$this->error_unassigned = false;
+
+		foreach ( $data as $key => $val ) {
+			$this->assign ( $key, $val );
+		}
+
+		foreach ( $data as $key => $val ) {
+			$this->assign ( $key, $val );
+		}
+
+		if ($return == FALSE) {
+			$CI = & get_instance ();
+			if (method_exists ( $CI->output, 'set_output' )) {
+				$CI->output->set_output ( $this->fetch ( $template ) );
+			} else {
+				$CI->output->final_output = $this->fetch ( $template );
+			}
+			return;
+		} else {
+			return $this->fetch ( $template );
+		}
+	}
+}

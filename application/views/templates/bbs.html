@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>超しょぼいBBS</title>
+</head>
+<body>
+	<h1>仮タイトル</h1>
+	<form action="/bbs/regist" method="post" accept-charset="utf-8">
+		<textarea rows="10" cols="60" name="message"></textarea>
+		<input type="submit" value="書き込み">
+	</form>
+
+
+	{$regrows}件のメッセージが登録されています。
+	<hr>
+
+	{for $i=0 to (count($bbs)-1)}
+
+	{$bbs[$i][0]}:{$bbs[$i][2]}<br><br>
+	{$bbs[$i][1]}<br>
+
+	<br>
+
+	{/for}
+
+</body>
+</html>
