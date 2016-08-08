@@ -3,8 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+input#submit_button {
+	padding: 10px 5px;
+	font-size: 1.2em;
+}
+</style>
 </head>
 <body>
-<h1>仮ログイン画面</h1>
+	<h1>仮ログイン画面</h1>
+	<form action="/bbs/login" method="post" accept-charset="utf-8">
+		<table>
+			<tr>
+				<th>ユーザー名:</th>
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<th>パスワード</th>
+				<td><input type="password" name="password"></td>
+			</tr>
+		</table>
+
+		<input id="submit_button" type="submit" value="ログイン">
+
+	</form>
 </body>
 </html>

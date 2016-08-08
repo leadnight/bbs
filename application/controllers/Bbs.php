@@ -1,8 +1,26 @@
 <?php
 class Bbs extends CI_Controller {
+
+	// ログイン処理
 	public function login() {
-		$this->smarty->view ( 'login.html' );
+
+		// モデルのロード
+		$this->load->model ( "Loginmodel" );
+
+		// データベース接続
+		$this->load->database ();
+
+		// ユーザー名とパスワードの取得
+		$username = $this->input->post ( "username" );
+		$password = $this->input->post ( "password" );
+
+		// エスケープ処理
+		$username = $this->db->escape ( $username );
+		$password = $this->db->escape ( $password );
+
 	}
+
+	// 書き込み処理
 	public function regist() {
 
 		// モデルのロード
@@ -14,11 +32,12 @@ class Bbs extends CI_Controller {
 		// メッセージの取得
 		$message = $this->input->post ( "message" );
 
+		// エスケープ処理
 		$message = $this->db->escape ( $message );
 
 		// var_dump($message);
 
-		// メッセージをDBに当登録
+		// メッセージをDBに登録
 		$res = $this->Bbsmodel->insertmessage ( $message );
 
 		// 成功と失敗で遷移先を分ける
@@ -40,7 +59,7 @@ class Bbs extends CI_Controller {
 
 		// ログインしていない場合、ログイン画面へ飛ばす
 		if (! $login) {
-			$this->login();
+			$this->smarty->view ( 'login.html' );
 			return;
 		}
 
