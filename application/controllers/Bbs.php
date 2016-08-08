@@ -12,7 +12,7 @@ class Bbs extends CI_Controller {
 
 		$message = $this->db->escape ( $message );
 
-		var_dump($message);
+		//var_dump($message);
 
 		$res = $this->Bbsmodel->insertmessage ( $message );
 
