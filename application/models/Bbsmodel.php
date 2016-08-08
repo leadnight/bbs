@@ -7,8 +7,7 @@ class Bbsmodel extends CI_Model {
 	function __construct() {
 		parent::__construct ();
 	}
-
-	function insertmessage($message){
+	function insertmessage($message) {
 		// データベース接続
 		$this->load->database ();
 
@@ -45,7 +44,7 @@ class Bbsmodel extends CI_Model {
 		$this->load->database ();
 
 		// データ呼び出し(全件表示)
-		$sql = "select * from sample.bbs order by createtime asc limit " + $limit + ";";
+		$sql = "select * from sample.bbs order by createtime asc limit " . $limit . ";";
 
 		// $limitが無効化されていた場合(0以下)SQL文を書き換える
 		if ($limit <= 0) {
@@ -58,7 +57,7 @@ class Bbsmodel extends CI_Model {
 		$result = $res->result ();
 
 		$counter = 0;
-		$bbsmessage = array();
+		$bbsmessage = array ();
 		foreach ( $result as $r ) {
 
 			$bbsmessage [$counter] [0] = $r->id;

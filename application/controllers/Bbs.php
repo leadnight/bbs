@@ -1,5 +1,20 @@
 <?php
 class Bbs extends CI_Controller {
+	public function logout() {
+		// セッション変数を全て解除する
+		$_SESSION = array ();
+
+		// セッションを切断するにはセッションクッキーも削除する。
+		// Note: セッション情報だけでなくセッションを破壊する。
+		if (isset ( $_COOKIE [session_name ()] )) {
+			setcookie ( session_name (), '', time () - 42000, '/' );
+		}
+
+		// 最終的に、セッションを破壊する
+		session_destroy ();
+
+		$this->smarty->view ( "logout.html" );
+	}
 
 	// ログイン処理
 	public function login() {
@@ -18,6 +33,15 @@ class Bbs extends CI_Controller {
 		$username = $this->db->escape ( $username );
 		$password = $this->db->escape ( $password );
 
+		// ログイン
+		$res = $this->Loginmodel->logincheck ( $username, $password );
+
+		if ($res) {
+			$this->smarty->view ( "success.html" );
+			$_SESSION ["username"] = $username;
+		} else {
+			$this->smarty->view ( "fail.html" );
+		}
 	}
 
 	// 書き込み処理

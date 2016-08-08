@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-08 11:57:27
+/* Smarty version 3.1.29, created on 2016-08-08 18:50:04
   from "/mnt/hgfs/workspace/html/application/views/templates/bbs.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a7f5179f1a03_18423441',
+  'unifunc' => 'content_57a855cc7264c6_46329996',
   'file_dependency' => 
   array (
     '0a14460d5c117d35b93cf8d13ab8213633e64f36' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/bbs.html',
-      1 => 1470625046,
+      1 => 1470649742,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a7f5179f1a03_18423441 ($_smarty_tpl) {
+function content_57a855cc7264c6_46329996 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,6 +32,10 @@ function content_57a7f5179f1a03_18423441 ($_smarty_tpl) {
 	<form action="/bbs/regist" method="post" accept-charset="utf-8">
 		<textarea rows="10" cols="60" name="message"></textarea>
 		<input type="submit" value="書き込み">
+	</form>
+
+	<form action="/bbs/logout" method="post" accept-charset="utf-8">
+		<input type="submit" value="ログアウト">
 	</form>
 
 
