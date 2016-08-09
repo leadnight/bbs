@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-08 17:34:07
+/* Smarty version 3.1.29, created on 2016-08-09 18:34:33
   from "/mnt/hgfs/workspace/html/application/views/templates/login.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a843ff8b0190_93835505',
+  'unifunc' => 'content_57a9a3a9d7fae1_01493106',
   'file_dependency' => 
   array (
     'da7c0da15e1f1bb8543a8482af621043bf1307ab' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/login.html',
-      1 => 1470645244,
+      1 => 1470735246,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a843ff8b0190_93835505 ($_smarty_tpl) {
+function content_57a9a3a9d7fae1_01493106 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -50,6 +50,7 @@ input#submit_button {
 		<input id="submit_button" type="submit" value="ログイン">
 
 	</form>
+	<h2><a href = "/bbs/register">新規登録</a></h2>
 </body>
 </html><?php }
 }

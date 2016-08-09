@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>楽しいユーザー登録</title>
+</head>
+<body>
+<h1>ユーザー登録画面</h1>
+{php} echo validation_errors(); {/php}
+	<form action="/bbs/register" method="post" accept-charset="utf-8">
+		<table>
+			<tr>
+				<th>ユーザー名:</th>
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<th>パスワード</th>
+				<td><input type="password" name="password"></td>
+			</tr>
+		</table>
+
+		<input id="submit_button" type="submit" value="登録">
+
+	</form>
+</body>
+</html>

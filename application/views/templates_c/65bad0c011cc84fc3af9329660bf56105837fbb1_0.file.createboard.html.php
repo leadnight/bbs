@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-09 17:50:49
-  from "/mnt/hgfs/workspace/html/application/views/templates/thanks.html" */
+/* Smarty version 3.1.29, created on 2016-08-09 17:53:44
+  from "/mnt/hgfs/workspace/html/application/views/templates/createboard.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a99969a2dc01_66625486',
+  'unifunc' => 'content_57a99a181168d4_54892319',
   'file_dependency' => 
   array (
-    '4f6245ced3bdbee2e1d526f53c5681b7b2565fbf' => 
+    '65bad0c011cc84fc3af9329660bf56105837fbb1' => 
     array (
-      0 => '/mnt/hgfs/workspace/html/application/views/templates/thanks.html',
-      1 => 1470732612,
+      0 => '/mnt/hgfs/workspace/html/application/views/templates/createboard.html',
+      1 => 1470732582,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a99969a2dc01_66625486 ($_smarty_tpl) {
+function content_57a99a181168d4_54892319 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,7 @@ function content_57a99969a2dc01_66625486 ($_smarty_tpl) {
 <meta http-equiv="refresh" content="3;URL=/bbs/">
 </head>
 <body>
-書き込みありがとうございました。
+新規スレッドを作成しました。
 </body>
 </html><?php }
 }
