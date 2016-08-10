@@ -1,6 +1,77 @@
 <?php
 class Bbs extends CI_Controller {
-	public function changepassward() {
+	/**
+	 * ユーザーのデリート
+	 */
+	public function deleteuser() {
+		// ログインしていなかった場合 叩き出す
+		if (! $this::islogin ()) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+
+		// Postで踏んできたかチェック(不十分だけど)
+		$check = $this->input->post ( "check" );
+
+		// URLの入力などで直接飛んできたと判定したらダミー挟んでトップページへ飛ばす
+		if ($check != 1) {
+			$this->smarty->view ( 'dummy.html' );
+			return;
+		}
+
+		// モデルのロード
+		$this->load->model ( "Loginmodel" );
+		$this->load->model ( "Usermodel" );
+
+		// バリデーションモジュール
+		$this->load->library ( 'form_validation' );
+
+		// データベースモジュールをロード
+		$this->load->database ();
+
+		//描画先にユーザー名をセット
+		$this->smarty->assign ( "username", str_replace ( "'", "", $_SESSION ["username"] ) );
+
+		// パスワードを取得
+		$password = $this->input->post ( "password" );
+
+		// エスケープ処理
+		$password = $this->db->escape ( $password );
+
+		// パスワード入ってない時
+		if ($password=="''") {
+			// エラーメッセージ
+			$myerrormessage = "<p>パスワードを入力してください。</p>";
+
+			$this->smarty->assign ( "myerrormessage", $myerrormessage );
+
+			//プロファイルページを表示させる
+			$this->smarty->view ( 'profile.html' );
+			return;
+		}
+
+		// ユーザー名
+		$username = $_SESSION ["username"];
+
+		// 入力されたパスワードが正しいのかチェック
+		$res = $this->Loginmodel->logincheck ( $username, $password );
+
+		if ($res == false) {
+			// エラーメッセージ
+			$myerrormessage = "<p>パスワードが違います。</p>";
+
+			$this->smarty->assign ( "myerrormessage", $myerrormessage );
+
+			//プロファイルページを表示させる
+			$this->smarty->view ( 'profile.html' );
+			return;
+		}
+	}
+
+	/**
+	 * パスワードの変更
+	 */
+	public function changepassword() {
 		// ログインしていなかった場合 叩き出す
 		if (! $this::islogin ()) {
 			$this->smarty->view ( 'error.html' );
@@ -31,18 +102,16 @@ class Bbs extends CI_Controller {
 		}
 
 		// ユーザー名をセッションから取り出す
-		$username = str_replace ( "'", "", $_SESSION ["username"] );
+		$username = $_SESSION ["username"];
 
 		// ユーザー名をセット
 		$this->smarty->assign ( "username", str_replace ( "'", "", $_SESSION ["username"] ) );
 
 		// postの取得
-		$oldpassward = $this->input->post ( "oldpassward" );
-		$newpassward = $this->input->post ( "newpassward" );
+		$newpassword = $this->input->post ( "newpassword" );
 
 		// ルール作成
-		$this->form_validation->set_rules ( 'oldpassward', '現在のパスワード', 'trim|required|alpha_numeric' );
-		$this->form_validation->set_rules ( 'newpassward', '新しいパスワード', 'trim|required|alpha_numeric' );
+		$this->form_validation->set_rules ( 'newpassword', '新しいパスワード', 'trim|required|alpha_numeric' );
 
 		// メッセージのセット
 		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
@@ -58,8 +127,18 @@ class Bbs extends CI_Controller {
 		}
 
 		// エスケープ
-		$oldpassward = $this->db->escape ( $oldpassward );
-		$newpassward = $this->db->escape ( $newpassward );
+		$newpassword = $this->db->escape ( $newpassword );
+
+		$res = $this->Usermodel->updatepassword ( $username, $newpassword );
+
+		// エラー起きたら飛ばす
+		if ($res == false) {
+			$this->smarty->view ( "error.html" );
+			return;
+		}
+
+		// 更新完了ページ
+		$this->smarty->view ( "password_changed.html" );
 	}
 	public function profile() {
 		// ログインしていなかった場合 叩き出す
@@ -158,10 +237,10 @@ class Bbs extends CI_Controller {
 		// ユーザー情報をDBに登録
 		$this->Usermodel->registeruser ( $username, $password );
 
-		//セッションにユーザー名を保存
+		// セッションにユーザー名を保存
 		$_SESSION ["username"] = $username;
 
-		//登録完了ページを表示
+		// 登録完了ページを表示
 		$this->smarty->view ( 'register_success.html' );
 	}
 

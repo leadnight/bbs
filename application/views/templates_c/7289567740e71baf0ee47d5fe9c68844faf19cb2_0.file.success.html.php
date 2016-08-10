@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-09 17:50:32
+/* Smarty version 3.1.29, created on 2016-08-10 16:12:45
   from "/mnt/hgfs/workspace/html/application/views/templates/success.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a999585b0f37_82237433',
+  'unifunc' => 'content_57aad3ed21a5b0_32396733',
   'file_dependency' => 
   array (
     '7289567740e71baf0ee47d5fe9c68844faf19cb2' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/success.html',
-      1 => 1470732612,
+      1 => 1470812006,
       2 => 'file',
     ),
   ),
@@ -19,13 +19,13 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a999585b0f37_82237433 ($_smarty_tpl) {
+function content_57aad3ed21a5b0_32396733 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ログイン成功</title>
 <meta http-equiv="refresh" content="3;URL=/bbs/">
 </head>
 <body>

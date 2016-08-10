@@ -14,9 +14,8 @@ class Loginmodel extends CI_Model {
 		$this->load->database ();
 
 		// ユーザー名が一致するものあるか
-		$sql = "select count(*) as num from sample.user where username = " . $username . " and md5(" . $password . ");";
+		$sql = "select count(*) as num from sample.user where username = " . $username . " and password = md5(" . $password . ");";
 
-		// $sqlp = "select count(*) as num from sample.user where password = md5(" . $password . ");";
 
 		// SQL実行
 		$res = $this->db->query ( $sql ); // ユーザーネームとのマッチ件数
