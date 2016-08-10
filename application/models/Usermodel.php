@@ -1,5 +1,5 @@
 <?php
-class Registermodel extends CI_Model {
+class Usermodel extends CI_Model {
 
 	/**
 	 * デフォルトコンストラクター
@@ -7,8 +7,7 @@ class Registermodel extends CI_Model {
 	function __construct() {
 		parent::__construct ();
 	}
-
-	function checkuser($username){
+	function checkuser($username) {
 		// データベース接続
 		$this->load->database ();
 
@@ -21,17 +20,16 @@ class Registermodel extends CI_Model {
 		// 結果を取得
 		$result = $res->row ();
 
-		//返答
-		$usercount = -1;
+		// 返答
+		$usercount = - 1;
 
-		if($result!=null){
+		if ($result != null) {
 			$usercount = $result->num;
 		}
 
 		return $usercount;
 	}
-
-	function  registeruser($username,$password){
+	function registeruser($username, $password) {
 
 		// データベース接続
 		$this->load->database ();
@@ -43,7 +41,5 @@ class Registermodel extends CI_Model {
 		$res = $this->db->query ( $sql );
 
 		return $res;
-
 	}
-
 }

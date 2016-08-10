@@ -19,7 +19,7 @@ class Bbs extends CI_Controller {
 		$this->load->database ();
 
 		// モデルのロード
-		$this->load->model ( "Registermodel" );
+		$this->load->model ( "Usermodel" );
 
 		// Postでユーザー名が送られてきたかチェック
 		$check = $this->input->post ( "check" );
@@ -36,7 +36,7 @@ class Bbs extends CI_Controller {
 		// ユーザー名をセット
 		$this->smarty->assign ( "username", str_replace ( "'", "", $_SESSION ["username"] ) );
 
-		//postの取得
+		// postの取得
 		$oldpassward = $this->input->post ( "oldpassward" );
 		$newpassward = $this->input->post ( "newpassward" );
 
@@ -57,9 +57,9 @@ class Bbs extends CI_Controller {
 			return;
 		}
 
-		//エスケープ
-		$oldpassward = $this->db->escape($oldpassward);
-		$newpassward = $this->db->escape($newpassward);
+		// エスケープ
+		$oldpassward = $this->db->escape ( $oldpassward );
+		$newpassward = $this->db->escape ( $newpassward );
 	}
 	public function profile() {
 		// ログインしていなかった場合 叩き出す
@@ -101,7 +101,7 @@ class Bbs extends CI_Controller {
 		$this->load->database ();
 
 		// モデルのロード
-		$this->load->model ( "Registermodel" );
+		$this->load->model ( "Usermodel" );
 		$this->load->model ( "Loginmodel" );
 
 		// Postでユーザー名が送られてきたかチェック
@@ -139,7 +139,7 @@ class Bbs extends CI_Controller {
 		$password = $this->db->escape ( $password );
 
 		// ユーザー名の重複がないかチェック
-		$usercount = $this->Registermodel->checkuser ( $username );
+		$usercount = $this->Usermodel->checkuser ( $username );
 
 		// エラーメッセージを格納する
 		$myerrormessage = array ();
@@ -156,17 +156,13 @@ class Bbs extends CI_Controller {
 		}
 
 		// ユーザー情報をDBに登録
-		$this->Registermodel->registeruser ( $username, $password );
+		$this->Usermodel->registeruser ( $username, $password );
 
-		// ログイン処理をする
-		$res = $this->Loginmodel->logincheck ( $username, $password );
+		//セッションにユーザー名を保存
+		$_SESSION ["username"] = $username;
 
-		if ($res) {
-			$_SESSION ["username"] = $username;
-			$this->smarty->view ( 'register_success.html' );
-		} else {
-			$this->smarty->view ( "fail.html" );
-		}
+		//登録完了ページを表示
+		$this->smarty->view ( 'register_success.html' );
 	}
 
 	/**

@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-10 14:49:52
+/* Smarty version 3.1.29, created on 2016-08-10 15:55:28
   from "/mnt/hgfs/workspace/html/application/views/templates/bbs.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57aac080ca6841_41097545',
+  'unifunc' => 'content_57aacfe0648c61_08827759',
   'file_dependency' => 
   array (
     '0a14460d5c117d35b93cf8d13ab8213633e64f36' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/bbs.html',
-      1 => 1470808191,
+      1 => 1470811794,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57aac080ca6841_41097545 ($_smarty_tpl) {
+function content_57aacfe0648c61_08827759 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,13 +28,17 @@ function content_57aac080ca6841_41097545 ($_smarty_tpl) {
 <title>超しょぼいBBS</title>
 </head>
 <body>
-	<h1>仮設BBS</h1>
+	<h1>BBS</h1>
 
 	こんにちは <?php echo $_smarty_tpl->tpl_vars['username']->value;?>
  さん
-	<br><br>
-	<p><a href = "/bbs/profile">アカウント設定</a></p>
-	<br><br>
+	<br>
+	<br>
+	<p>
+		<a href="/bbs/profile">アカウント設定</a>
+	</p>
+	<br>
+	<br>
 	<form action="/bbs/logout" method="post" accept-charset="utf-8">
 		<input type="submit" value="ログアウト">
 	</form>

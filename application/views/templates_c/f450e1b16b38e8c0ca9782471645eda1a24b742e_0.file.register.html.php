@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-10 13:28:19
+/* Smarty version 3.1.29, created on 2016-08-10 15:55:51
   from "/mnt/hgfs/workspace/html/application/views/templates/register.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57aaad635f5253_14513186',
+  'unifunc' => 'content_57aacff76424a0_72078769',
   'file_dependency' => 
   array (
     'f450e1b16b38e8c0ca9782471645eda1a24b742e' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/register.html',
-      1 => 1470803291,
+      1 => 1470811999,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57aaad635f5253_14513186 ($_smarty_tpl) {
+function content_57aacff76424a0_72078769 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +28,7 @@ function content_57aaad635f5253_14513186 ($_smarty_tpl) {
 <title>楽しいユーザー登録</title>
 </head>
 <body>
-<h1>ユーザー登録画面</h1>
+<h1>ユーザー登録</h1>
 <?php  echo validation_errors();
 echo $_smarty_tpl->tpl_vars['myerrormessage']->value["username"];?>
 
