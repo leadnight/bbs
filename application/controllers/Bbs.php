@@ -1,38 +1,190 @@
 <?php
 class Bbs extends CI_Controller {
+	public function changepassward() {
+		// ログインしていなかった場合 叩き出す
+		if (! $this::islogin ()) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+		// ヘルパーのロード(使うか未定)
+		$this->load->helper ( array (
+				'form',
+				'url'
+		) );
 
-	public function register(){
+		// バリデーションモジュール
+		$this->load->library ( 'form_validation' );
 
-		//ヘルパーのロード(使うか未定)
-		$this->load->helper(array('form', 'url'));
+		// データベースモジュールをロード
+		$this->load->database ();
 
-		//バリデーションモジュール
-		$this->load->library('form_validation');
+		// モデルのロード
+		$this->load->model ( "Registermodel" );
 
-		$username = $this->input->post ( "username" );
+		// Postでユーザー名が送られてきたかチェック
+		$check = $this->input->post ( "check" );
 
-		//初訪問
-		if($username==null){
+		// URLの入力などで直接飛んできたと判定したらダミー挟んでトップページへ飛ばす
+		if ($check != 1) {
+			$this->smarty->view ( 'dummy.html' );
+			return;
+		}
+
+		// ユーザー名をセッションから取り出す
+		$username = str_replace ( "'", "", $_SESSION ["username"] );
+
+		// ユーザー名をセット
+		$this->smarty->assign ( "username", str_replace ( "'", "", $_SESSION ["username"] ) );
+
+		//postの取得
+		$oldpassward = $this->input->post ( "oldpassward" );
+		$newpassward = $this->input->post ( "newpassward" );
+
+		// ルール作成
+		$this->form_validation->set_rules ( 'oldpassward', '現在のパスワード', 'trim|required|alpha_numeric' );
+		$this->form_validation->set_rules ( 'newpassward', '新しいパスワード', 'trim|required|alpha_numeric' );
+
+		// メッセージのセット
+		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
+		$this->form_validation->set_message ( "alpha_numeric", "項目 [ %s ] は半角英数字で構成されている必要があります。" );
+
+		// チェック
+		$vcheck = $this->form_validation->run ();
+
+		// チェックしてダメならプロファイル変更画面へ戻る
+		if ($vcheck == false) {
+			$this->smarty->view ( 'profile.html' );
+			return;
+		}
+
+		//エスケープ
+		$oldpassward = $this->db->escape($oldpassward);
+		$newpassward = $this->db->escape($newpassward);
+	}
+	public function profile() {
+		// ログインしていなかった場合 叩き出す
+		if (! $this::islogin ()) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+
+		// ヘルパーのロード(使うか未定)
+		$this->load->helper ( array (
+				'form',
+				'url'
+		) );
+
+		// バリデーションモジュール
+		$this->load->library ( 'form_validation' );
+
+		// ユーザー名をセット
+		$this->smarty->assign ( "username", str_replace ( "'", "", $_SESSION ["username"] ) );
+
+		$this->smarty->view ( 'profile.html' );
+	}
+
+	/**
+	 * ユーザー登録
+	 */
+	public function register() {
+
+		// ヘルパーのロード(使うか未定)
+		$this->load->helper ( array (
+				'form',
+				'url'
+		) );
+
+		// バリデーションモジュール
+		$this->load->library ( 'form_validation' );
+
+		// データベースモジュールをロード
+		$this->load->database ();
+
+		// モデルのロード
+		$this->load->model ( "Registermodel" );
+		$this->load->model ( "Loginmodel" );
+
+		// Postでユーザー名が送られてきたかチェック
+		$visited = $this->input->post ( "visited" );
+
+		// 初訪問だったら、登録フォームへ
+		if ($visited != 1) {
 			$this->smarty->view ( 'register.html' );
 			return;
 		}
 
-		//チェック
-		$check = $this->form_validation->run();
+		// Postデータの取得
+		$username = $this->input->post ( "username" );
+		$password = $this->input->post ( "password" );
 
-		$this->smarty->view ( 'register.html' );
+		// ルール作成
+		$this->form_validation->set_rules ( 'username', 'ユーザ名', 'trim|required|alpha_numeric' );
+		$this->form_validation->set_rules ( 'password', 'パスワード', 'trim|required|alpha_numeric' );
 
+		// メッセージのセット
+		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
+		$this->form_validation->set_message ( "alpha_numeric", "項目 [ %s ] は半角英数字で構成されている必要があります。" );
+
+		// チェック
+		$check = $this->form_validation->run ();
+
+		// チェックしてダメなら戻す
+		if ($check == false) {
+			$this->smarty->view ( 'register.html' );
+			return;
+		}
+
+		// エスケープ処理
+		$username = $this->db->escape ( $username );
+		$password = $this->db->escape ( $password );
+
+		// ユーザー名の重複がないかチェック
+		$usercount = $this->Registermodel->checkuser ( $username );
+
+		// エラーメッセージを格納する
+		$myerrormessage = array ();
+
+		// ユーザー名が重複していた場合
+		if ($usercount >= 1) {
+			$myerrormessage ["username"] = "<p>ユーザー名はすでに使われています。</p>";
+
+			$this->smarty->assign ( "myerrormessage", $myerrormessage );
+
+			// 登録ページヘ戻す
+			$this->smarty->view ( 'register.html' );
+			return;
+		}
+
+		// ユーザー情報をDBに登録
+		$this->Registermodel->registeruser ( $username, $password );
+
+		// ログイン処理をする
+		$res = $this->Loginmodel->logincheck ( $username, $password );
+
+		if ($res) {
+			$_SESSION ["username"] = $username;
+			$this->smarty->view ( 'register_success.html' );
+		} else {
+			$this->smarty->view ( "fail.html" );
+		}
 	}
 
 	/**
 	 * 板の新規作成
 	 */
-	public function createboard(){
+	public function createboard() {
+
+		// ログインしていなかった場合
+		if (! $this::islogin ()) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+
 		// フォームからデータが送られてきたかチェックする
 		// 隠し要素でwriteを持っているかどうかで判定
 		// 偽装されたら？んー・・・
 		$write = $this->input->post ( "write2" );
-		if (! isset ( $write )) {
+		if ($write != 1) {
 			$this->smarty->view ( 'error.html' );
 			return;
 		}
@@ -49,11 +201,11 @@ class Bbs extends CI_Controller {
 		// エスケープ処理
 		$title = $this->db->escape ( $title );
 
-		//作成処理
-		$res = $this->Bbsmodel->createboard($title);
+		// 作成処理
+		$res = $this->Bbsmodel->createboard ( $title );
 
-		//選択中の掲示板IDを初期化しておく
-		unset($_SESSION ["boardid"] );
+		// 選択中の掲示板IDを初期化しておく
+		unset ( $_SESSION ["boardid"] );
 
 		// 成功と失敗で遷移先を分ける
 		if ($res == true) {
@@ -71,6 +223,13 @@ class Bbs extends CI_Controller {
 	 *        	掲示板ID
 	 */
 	public function loadboard($boardid) {
+
+		// ログインしていなかった場合
+		if (! $this::islogin ()) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+
 		$this->loadboard_sub ( $boardid );
 
 		$this->smarty->view ( "dummy.html" );
@@ -159,6 +318,12 @@ class Bbs extends CI_Controller {
 	 */
 	public function writemessage() {
 
+		// ログインしていなかった場合
+		if (! $this::islogin ()) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+
 		// フォームからデータが送られてきたかチェックする
 		// 隠し要素でwriteを持っているかどうかで判定
 		// 偽装されたら？んー・・・
@@ -180,8 +345,8 @@ class Bbs extends CI_Controller {
 		// エスケープ処理
 		$message = $this->db->escape ( $message );
 
-		//htmlで正常に表示させるために記号を書き換え
-		$message = htmlspecialchars($message);
+		// htmlで正常に表示させるために記号を書き換え
+		$message = htmlspecialchars ( $message );
 
 		// 現在閲覧してるスレッドの情報がセクションにあるはず
 		// なければ不正に開かれた可能性あり
@@ -259,5 +424,12 @@ class Bbs extends CI_Controller {
 
 		// テンプレ起動
 		$this->smarty->view ( 'bbs.html' );
+	}
+	private function islogin() {
+		$res = false;
+
+		$res = isset ( $_SESSION ["username"] );
+
+		return $res;
 	}
 }

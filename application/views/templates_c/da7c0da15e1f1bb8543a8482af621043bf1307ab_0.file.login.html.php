@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-09 18:34:33
+/* Smarty version 3.1.29, created on 2016-08-10 14:24:14
   from "/mnt/hgfs/workspace/html/application/views/templates/login.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a9a3a9d7fae1_01493106',
+  'unifunc' => 'content_57aaba7ec56b74_93208960',
   'file_dependency' => 
   array (
     'da7c0da15e1f1bb8543a8482af621043bf1307ab' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/login.html',
-      1 => 1470735246,
+      1 => 1470806652,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a9a3a9d7fae1_01493106 ($_smarty_tpl) {
+function content_57aaba7ec56b74_93208960 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,7 @@ input#submit_button {
 	<form action="/bbs/login" method="post" accept-charset="utf-8">
 		<table>
 			<tr>
-				<th>ユーザー名:</th>
+				<th>ユーザー名</th>
 				<td><input type="text" name="username"></td>
 			</tr>
 			<tr>

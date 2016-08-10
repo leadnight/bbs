@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ユーザー情報の変更</title>
+</head>
+<body>
+	ユーザー名 [ {$username} ]
+	<br>
+	<p>
+		<a href="/bbs">トップページへ戻る</a>
+	</p>
+	<p>パスワードの変更</p>
+	{php} echo validation_errors(); {/php}
+	<form action="/bbs/changepassward" method="post" accept-charset="utf-8">
+		<table>
+			<tr>
+				<th>古いパスワード</th>
+				<td><input type="password" name="oldpassward"></td>
+			</tr>
+			<tr>
+				<th>新しいパスワード</th>
+				<td><input type="password" name="newpassward"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="check" value="1"><br> <input
+			type="submit" name="pass" value="パスワード更新">
+	</form>
+
+</body>
+</html>

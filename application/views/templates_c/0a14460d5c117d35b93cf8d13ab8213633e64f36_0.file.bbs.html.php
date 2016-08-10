@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-09 17:27:12
+/* Smarty version 3.1.29, created on 2016-08-10 14:49:52
   from "/mnt/hgfs/workspace/html/application/views/templates/bbs.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a993e088e779_96123291',
+  'unifunc' => 'content_57aac080ca6841_41097545',
   'file_dependency' => 
   array (
     '0a14460d5c117d35b93cf8d13ab8213633e64f36' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/bbs.html',
-      1 => 1470731225,
+      1 => 1470808191,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a993e088e779_96123291 ($_smarty_tpl) {
+function content_57aac080ca6841_41097545 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,10 +30,12 @@ function content_57a993e088e779_96123291 ($_smarty_tpl) {
 <body>
 	<h1>仮設BBS</h1>
 
+	こんにちは <?php echo $_smarty_tpl->tpl_vars['username']->value;?>
+ さん
+	<br><br>
+	<p><a href = "/bbs/profile">アカウント設定</a></p>
+	<br><br>
 	<form action="/bbs/logout" method="post" accept-charset="utf-8">
-		こんにちは <?php echo $_smarty_tpl->tpl_vars['username']->value;?>
- さん <br>
-		<br>
 		<input type="submit" value="ログアウト">
 	</form>
 
@@ -42,18 +44,17 @@ function content_57a993e088e779_96123291 ($_smarty_tpl) {
 	<hr>
 	<h2>板一覧</h2>
 	<form action="/bbs/createboard" method="post" accept-charset="utf-8">
-		<input type="text" name = "title">
-		<input type="hidden" name = "write2" value="1">
-		<input type="submit" value="新規作成">
+		<input type="text" name="title"> <input type="hidden"
+			name="write2" value="1"> <input type="submit" value="新規作成">
 	</form>
 
-	<br><br>
-	<?php
+	<br>
+	<br> <?php
 $_smarty_tpl->tpl_vars['i'] = new Smarty_Variable;$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? (count($_smarty_tpl->tpl_vars['boardlist']->value)-1)+1 - (0) : 0-((count($_smarty_tpl->tpl_vars['boardlist']->value)-1))+1)/abs($_smarty_tpl->tpl_vars['i']->step));
 if ($_smarty_tpl->tpl_vars['i']->total > 0) {
 for ($_smarty_tpl->tpl_vars['i']->value = 0, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
 $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration == $_smarty_tpl->tpl_vars['i']->total;?>
-	<a href = "/bbs/loadboard/<?php echo $_smarty_tpl->tpl_vars['boardlist']->value[$_smarty_tpl->tpl_vars['i']->value][0];?>
+	<a href="/bbs/loadboard/<?php echo $_smarty_tpl->tpl_vars['boardlist']->value[$_smarty_tpl->tpl_vars['i']->value][0];?>
 "><?php echo $_smarty_tpl->tpl_vars['boardlist']->value[$_smarty_tpl->tpl_vars['i']->value][0];?>
 (<?php echo $_smarty_tpl->tpl_vars['boardlist']->value[$_smarty_tpl->tpl_vars['i']->value][2];?>
 ):<?php echo $_smarty_tpl->tpl_vars['boardlist']->value[$_smarty_tpl->tpl_vars['i']->value][1];?>
@@ -71,17 +72,13 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration == 1
 			type="submit" value="書き込み">
 	</form>
 	<hr>
-	<?php }?>
-
-	<?php if ($_smarty_tpl->tpl_vars['boardid']->value > 0) {?>
+	<?php }?> <?php if ($_smarty_tpl->tpl_vars['boardid']->value > 0) {?>
 
 	<h2><?php echo $_smarty_tpl->tpl_vars['boardname']->value;?>
 [登録<?php echo $_smarty_tpl->tpl_vars['boardnum']->value;?>
 件]</h2>
 
-	<?php }?>
-
-	<?php
+	<?php }?> <?php
 $_smarty_tpl->tpl_vars['i'] = new Smarty_Variable;$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? (count($_smarty_tpl->tpl_vars['message']->value)-1)+1 - (0) : 0-((count($_smarty_tpl->tpl_vars['message']->value)-1))+1)/abs($_smarty_tpl->tpl_vars['i']->step));
 if ($_smarty_tpl->tpl_vars['i']->total > 0) {
 for ($_smarty_tpl->tpl_vars['i']->value = 0, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {

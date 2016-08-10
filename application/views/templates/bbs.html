@@ -7,9 +7,15 @@
 <body>
 	<h1>仮設BBS</h1>
 
+	こんにちは {$username} さん
+	<br>
+	<br>
+	<p>
+		<a href="/bbs/profile">アカウント設定</a>
+	</p>
+	<br>
+	<br>
 	<form action="/bbs/logout" method="post" accept-charset="utf-8">
-		こんにちは {$username} さん <br>
-		<br>
 		<input type="submit" value="ログアウト">
 	</form>
 
@@ -18,14 +24,13 @@
 	<hr>
 	<h2>板一覧</h2>
 	<form action="/bbs/createboard" method="post" accept-charset="utf-8">
-		<input type="text" name = "title">
-		<input type="hidden" name = "write2" value="1">
-		<input type="submit" value="新規作成">
+		<input type="text" name="title"> <input type="hidden"
+			name="write2" value="1"> <input type="submit" value="新規作成">
 	</form>
 
-	<br><br>
-	{for $i=0 to (count($boardlist)-1)}
-	<a href = "/bbs/loadboard/{$boardlist[$i][0]}">{$boardlist[$i][0]}({$boardlist[$i][2]}):{$boardlist[$i][1]}</a>
+	<br>
+	<br> {for $i=0 to (count($boardlist)-1)}
+	<a href="/bbs/loadboard/{$boardlist[$i][0]}">{$boardlist[$i][0]}({$boardlist[$i][2]}):{$boardlist[$i][1]}</a>
 	<br> {/for}
 	<hr>
 
@@ -36,15 +41,11 @@
 			type="submit" value="書き込み">
 	</form>
 	<hr>
-	{/if}
-
-	{if $boardid > 0}
+	{/if} {if $boardid > 0}
 
 	<h2>{$boardname}[登録{$boardnum}件]</h2>
 
-	{/if}
-
-	{for $i=0 to (count($message)-1)}
+	{/if} {for $i=0 to (count($message)-1)}
 	{$message[$i][0]}:{$message[$i][2]}
 	<br>
 	<br> {$message[$i][1]}
