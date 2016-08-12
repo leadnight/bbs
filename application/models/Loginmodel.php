@@ -8,31 +8,31 @@ class Loginmodel extends CI_Model {
 		parent::__construct ();
 	}
 	function logincheck($username, $password) {
-		$res = false; // 認証できたかのフラグ
+		$response = false; // 認証できたかのフラグ
 
 		// データベース接続
 		$this->load->database ();
 
 		// ユーザー名が一致するものあるか
-		$sqlu = "select count(*) as num from sample.user where username = " . $username . ";";
-		$sqlp = "select count(*) as num from sample.user where password = md5(" . $password . ");";
+		$sql = "select count(*) as num from sample.user where username = " . $username . " and password = md5(" . $password . ");";
+
 
 		// SQL実行
-		$resu = $this->db->query ( $sqlu ); //ユーザーネームとのマッチ件数
-		$resp = $this->db->query ( $sqlp ); //パスワードとのマッチ件数
+		$res = $this->db->query ( $sql ); // ユーザーネームとのマッチ件数
+		                                  // $resp = $this->db->query ( $sqlp ); //パスワードとのマッチ件数
 
-		//結果を取り出す処理
-		$resu = $resu->row ();
-		$resp = $resp->row ();
+		// 結果を取り出す処理
+		$res = $res->row ();
+		// $resp = $resp->row ();
 
-		//一致したレコード数を代入
-		$resu = $resu->num;
-		$resp = $resp->num;
+		// 一致したレコード数を代入
+		$res = $res->num;
+		// $resp = $resp->num;
 
-		if ($resu == 1 && $resp == 1) {
-			$res = true;
+		if ($res == 1) {
+			$response = true;
 		}
 
-		return $res;
+		return $response;
 	}
 }

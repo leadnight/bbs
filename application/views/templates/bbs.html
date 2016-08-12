@@ -5,28 +5,53 @@
 <title>超しょぼいBBS</title>
 </head>
 <body>
-	<h1>仮タイトル</h1>
-	<form action="/bbs/regist" method="post" accept-charset="utf-8">
-		<textarea rows="10" cols="60" name="message"></textarea>
-		<input type="submit" value="書き込み">
-	</form>
+	<h1>BBS</h1>
 
+	こんにちは {$username} さん
+	<br>
+	<br>
+	<p>
+		<a href="/bbs/profile">アカウント設定</a>
+	</p>
+	<br>
+	<br>
 	<form action="/bbs/logout" method="post" accept-charset="utf-8">
 		<input type="submit" value="ログアウト">
 	</form>
 
-
-	{$regrows}件のメッセージが登録されています。
-	<hr>
-
-	{for $i=0 to (count($bbs)-1)}
-
-	{$bbs[$i][0]}:{$bbs[$i][2]}<br><br>
-	{$bbs[$i][1]}<br>
-
 	<br>
 
-	{/for}
+	<hr>
+	<h2>板一覧</h2>
+	<form action="/bbs/createboard" method="post" accept-charset="utf-8">
+		<input type="text" name="title"> <input type="hidden"
+			name="write2" value="1"> <input type="submit" value="新規作成">
+	</form>
+
+	<br>
+	<br> {for $i=0 to (count($boardlist)-1)}
+	<a href="/bbs/loadboard/{$boardlist[$i][0]}">{$boardlist[$i][0]}({$boardlist[$i][2]}):{$boardlist[$i][1]}</a>
+	<br> {/for}
+	<hr>
+
+	{if $boardid>0}
+	<form action="/bbs/writemessage" method="post" accept-charset="utf-8">
+		<textarea rows="10" cols="60" name="message"></textarea>
+		<input type="hidden" name="write" value="1"> <input
+			type="submit" value="書き込み">
+	</form>
+	<hr>
+	{/if} {if $boardid > 0}
+
+	<h2>{$boardname}[登録{$boardnum}件]</h2>
+
+	{/if} {for $i=0 to (count($message)-1)}
+	{$message[$i][0]}:{$message[$i][2]}
+	<br>
+	<br> {$message[$i][1]}
+	<br>
+
+	<br> {/for}
 
 </body>
 </html>
