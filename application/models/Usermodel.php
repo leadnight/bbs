@@ -7,7 +7,18 @@ class Usermodel extends CI_Model {
 	function __construct() {
 		parent::__construct ();
 	}
+	function deleteuser($username) {
+		// データベース接続
+		$this->load->database ();
 
+		//SQL文
+		$sql = "delete FROM sample.user where username = $username;";
+
+		//削除処理
+		$res = $this->db->query($sql);
+
+		return $res;
+	}
 	function updatepassword($username, $password) {
 		// データベース接続
 		$this->load->database ();

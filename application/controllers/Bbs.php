@@ -19,17 +19,7 @@ class Bbs extends CI_Controller {
 			return;
 		}
 
-		// モデルのロード
-		$this->load->model ( "Loginmodel" );
-		$this->load->model ( "Usermodel" );
-
-		// バリデーションモジュール
-		$this->load->library ( 'form_validation' );
-
-		// データベースモジュールをロード
-		$this->load->database ();
-
-		//描画先にユーザー名をセット
+		// 描画先にユーザー名をセット
 		$this->smarty->assign ( "username", str_replace ( "'", "", $_SESSION ["username"] ) );
 
 		// パスワードを取得
@@ -39,13 +29,13 @@ class Bbs extends CI_Controller {
 		$password = $this->db->escape ( $password );
 
 		// パスワード入ってない時
-		if ($password=="''") {
+		if ($password == "''") {
 			// エラーメッセージ
 			$myerrormessage = "<p>パスワードを入力してください。</p>";
 
 			$this->smarty->assign ( "myerrormessage", $myerrormessage );
 
-			//プロファイルページを表示させる
+			// プロファイルページを表示させる
 			$this->smarty->view ( 'profile.html' );
 			return;
 		}
@@ -62,10 +52,25 @@ class Bbs extends CI_Controller {
 
 			$this->smarty->assign ( "myerrormessage", $myerrormessage );
 
-			//プロファイルページを表示させる
+			// プロファイルページを表示させる
 			$this->smarty->view ( 'profile.html' );
 			return;
 		}
+
+		// ユーザーを削除する
+		$res = $this->Usermodel->deleteuser ( $username );
+
+		// 正常に削除できなかった場合
+		if ($res == false) {
+			$this->smarty->view ( 'error.html' );
+			return;
+		}
+
+		// ログアウト処理
+		$this->logout_sub ();
+
+		// アカウント削除ページを表示
+		$this->smarty->view ( "deleteaccount.html" );
 	}
 
 	/**
@@ -77,20 +82,6 @@ class Bbs extends CI_Controller {
 			$this->smarty->view ( 'error.html' );
 			return;
 		}
-		// ヘルパーのロード(使うか未定)
-		$this->load->helper ( array (
-				'form',
-				'url'
-		) );
-
-		// バリデーションモジュール
-		$this->load->library ( 'form_validation' );
-
-		// データベースモジュールをロード
-		$this->load->database ();
-
-		// モデルのロード
-		$this->load->model ( "Usermodel" );
 
 		// Postでユーザー名が送られてきたかチェック
 		$check = $this->input->post ( "check" );
@@ -343,6 +334,11 @@ class Bbs extends CI_Controller {
 	 * セッションとクッキーの破棄
 	 */
 	public function logout() {
+		$this->logout_sub ();
+
+		$this->smarty->view ( "logout.html" );
+	}
+	private function logout_sub() {
 		// セッション変数を全て解除する
 		$_SESSION = array ();
 
@@ -354,8 +350,6 @@ class Bbs extends CI_Controller {
 
 		// 最終的に、セッションを破壊する
 		session_destroy ();
-
-		$this->smarty->view ( "logout.html" );
 	}
 
 	/**
@@ -364,10 +358,10 @@ class Bbs extends CI_Controller {
 	public function login() {
 
 		// モデルのロード
-		$this->load->model ( "Loginmodel" );
+		// $this->load->model ( "Loginmodel" );
 
 		// データベース接続
-		$this->load->database ();
+		// $this->load->database ();
 
 		// ユーザー名とパスワードの取得
 		$username = $this->input->post ( "username" );
@@ -444,11 +438,9 @@ class Bbs extends CI_Controller {
 		}
 	}
 	public function index() {
-		// モデルのロード
-		$this->load->model ( "Bbsmodel" );
 
 		// ログインしているか確認
-		$login = isset ( $_SESSION ["username"] );
+		$login = $this->islogin();
 
 		// ログインしていない場合、ログイン画面へ飛ばす
 		if (! $login) {
@@ -500,11 +492,16 @@ class Bbs extends CI_Controller {
 		// テンプレ起動
 		$this->smarty->view ( 'bbs.html' );
 	}
+
+	/**
+	 * ログインしているかのチェック
+	 * sessionにユーザー名が保存されているかで調べる
+	 *
+	 * @return ログインしていればture,してなければfalse
+	 */
 	private function islogin() {
 		$res = false;
-
 		$res = isset ( $_SESSION ["username"] );
-
 		return $res;
 	}
 }
