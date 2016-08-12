@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-09 15:16:57
+/* Smarty version 3.1.29, created on 2016-08-10 18:47:01
   from "/mnt/hgfs/workspace/html/application/views/templates/dummy.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57a975597711c6_03839595',
+  'unifunc' => 'content_57aaf8154449b8_40189833',
   'file_dependency' => 
   array (
     'e6ae78e034aa8d001f47757838ea3a7b5dc896c7' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/dummy.html',
-      1 => 1470723398,
+      1 => 1470811931,
       2 => 'file',
     ),
   ),
@@ -19,16 +19,17 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57a975597711c6_03839595 ($_smarty_tpl) {
+function content_57aaf8154449b8_40189833 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ダミーページ</title>
 <meta http-equiv="refresh" content="0;URL=/bbs/">
 </head>
 <body>
+<p><a href = "/bbs">移動しない場合はクリックしてください</a></p>
 </body>
 </html><?php }
 }
