@@ -7,6 +7,26 @@ class Loginmodel extends CI_Model {
 	function __construct() {
 		parent::__construct ();
 	}
+
+	/**
+	 * ログインしているかチェックする
+	 * セッション変数に"username"として
+	 * 値が設定されているかを確認
+	 * @return ture:ログイン中 false:ログインしてない
+	 */
+	function islogin() {
+		$res = false;
+		$res = isset ( $_SESSION ["username"] );
+		return $res;
+	}
+
+	/**
+	 * ログインチェック
+	 * (ヘルパー使って書き直したほうがいいのかもしれない)
+	 * @param String $username ユーザー名
+	 * @param String $password パスワード
+	 * @return boolean true:ログイン成功 false:ログイン失敗
+	 */
 	function logincheck($username, $password) {
 		$response = false; // 認証できたかのフラグ
 
@@ -15,7 +35,6 @@ class Loginmodel extends CI_Model {
 
 		// ユーザー名が一致するものあるか
 		$sql = "select count(*) as num from sample.user where username = " . $username . " and password = md5(" . $password . ");";
-
 
 		// SQL実行
 		$res = $this->db->query ( $sql ); // ユーザーネームとのマッチ件数
