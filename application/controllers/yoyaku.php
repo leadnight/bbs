@@ -5,17 +5,20 @@
  */
 class Yoyaku extends CI_Controller {
 	/**
+	 *
 	 * @var string トップページへのアドレス(ダミー挟む)
 	 */
-	const tomain = "yoyaku/dummytomain.html";
+	const TOMAIN = "yoyaku/dummytomain.html";
 	/**
+	 *
 	 * @var string エラーページヘのアドレス
 	 */
-	const error = "yoyaku/error.html";
+	const ERROR = "yoyaku/error.html";
 	/**
+	 *
 	 * @var string ユーザーページ作成へのアドレス
 	 */
-	const createuser = "yoyaku/createuser.html";
+	const CREATEUSER = "yoyaku/createuser.html";
 	/**
 	 * コメントを追加する
 	 */
@@ -24,10 +27,10 @@ class Yoyaku extends CI_Controller {
 		static::unseterrormessage ();
 
 		// ログインチェック
-		self::islogin ();
+		static::islogin ();
 
 		// postでデータが送られてきたかチェック
-		self::isposted ();
+		static::isposted ();
 
 		// ======バリデーション======
 		// ルール作成
@@ -44,7 +47,7 @@ class Yoyaku extends CI_Controller {
 
 			$_SESSION ["comment_error"] = "<p>コメントを入れてください</p>";
 
-			$this->smarty->view ( self::tomain );
+			$this->smarty->view ( static::TOMAIN );
 			return;
 		}
 		// =====================
@@ -59,7 +62,7 @@ class Yoyaku extends CI_Controller {
 		if ($res) {
 			$this->smarty->view ( "yoyaku/createcomment_success.html" );
 		} else {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 		}
 	}
 
@@ -69,13 +72,13 @@ class Yoyaku extends CI_Controller {
 	public function creategoods() {
 
 		// エラーメッセージ初期化
-		self::unseterrormessage ();
+		static::unseterrormessage ();
 
 		// ログインチェック
-		self::islogin ();
+		static::islogin ();
 
 		// postでデータが送られてきたかチェック
-		self::isposted ();
+		static::isposted ();
 
 		// Postデータの取得
 		$title = $this->input->post ( "title", true );
@@ -95,7 +98,7 @@ class Yoyaku extends CI_Controller {
 
 			$_SESSION ["create_goods_error"] = "<p>品目を入れてください</p>";
 
-			$this->smarty->view ( self::tomain );
+			$this->smarty->view ( static::TOMAIN );
 			return;
 		}
 		// =====================
@@ -110,7 +113,7 @@ class Yoyaku extends CI_Controller {
 		if ($res) {
 			$this->smarty->view ( "yoyaku/createitem_success.html" );
 		} else {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 		}
 	}
 
@@ -119,10 +122,10 @@ class Yoyaku extends CI_Controller {
 	 */
 	public function deletereservation() {
 		// ログインチェック
-		self::islogin ();
+		static::islogin ();
 
 		// Postでユーザー名が送られてきたかチェック
-		self::isposted ();
+		static::isposted ();
 
 		// 消す予定の予約idを取得(formでhiddenしてある)
 		$reservationid = $this->input->post ( "reservationid" );
@@ -135,7 +138,7 @@ class Yoyaku extends CI_Controller {
 		if ($res) {
 			$this->smarty->view ( "yoyaku/deletereservation_success.html" );
 		} else {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 		}
 	}
 	/**
@@ -147,7 +150,7 @@ class Yoyaku extends CI_Controller {
 	 */
 	public function deletereservation_check($reservationindex) {
 		// ログインしているか確認
-		self::islogin ();
+		static::islogin ();
 
 		// 削除対象の予約データが入ります
 		$reservation = array ();
@@ -159,7 +162,7 @@ class Yoyaku extends CI_Controller {
 		$reservation = $list [$reservationindex];
 
 		// Smartyに予約情報をセット
-		self::setsmarty ( "reservation", $reservation );
+		static::setsmarty ( "reservation", $reservation );
 
 		// 確認ページ出力
 		$this->smarty->view ( "yoyaku/deletereservation.html" );
@@ -171,13 +174,13 @@ class Yoyaku extends CI_Controller {
 	public function createreservation() {
 
 		// エラーメッセージを削除
-		self::unseterrormessage ();
+		static::unseterrormessage ();
 
 		// ログインしているか確認
-		self::islogin ();
+		static::islogin ();
 
 		// Postでユーザー名が送られてきたかチェック
-		self::isposted ();
+		static::isposted ();
 
 		// 送信された内容を取得
 		$syear = $this->input->post ( "syear" );
@@ -205,7 +208,7 @@ class Yoyaku extends CI_Controller {
 			$starttime = new DateTime ( $start );
 			$endtime = new DateTime ( $end );
 		} catch ( Exception $e ) {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 			return;
 		}
 
@@ -237,7 +240,7 @@ class Yoyaku extends CI_Controller {
 
 		// 予約日時がおかしいのでトップページへ
 		if (isset ( $_SESSION ["yoyaku_error_message"] )) {
-			$this->smarty->view ( self::tomain );
+			$this->smarty->view ( static::TOMAIN );
 			return;
 		}
 
@@ -248,7 +251,7 @@ class Yoyaku extends CI_Controller {
 		if ($res) {
 			$this->smarty->view ( "yoyaku/yoyaku_success.html" );
 		} else {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 		}
 	}
 
@@ -258,13 +261,13 @@ class Yoyaku extends CI_Controller {
 	 *
 	 * @param unknown $goodsid
 	 */
-	public function loadgoods($goodsid,$mode) {
+	public function loadgoods($goodsid, $mode) {
 
 		// エラーメッセージを削除
-		self::unseterrormessage ();
+		static::unseterrormessage ();
 
 		// ログインしているか確認
-		self::islogin ();
+		static::islogin ();
 
 		$res = $this->Yoyakumodel->getgoodsinfo ( $goodsid );
 
@@ -274,14 +277,14 @@ class Yoyaku extends CI_Controller {
 			$_SESSION ["current_goodsname"] = $res ["goodsname"];
 		}
 
-		if(is_int($mode)){
-			$_SESSION["currnt_goodsmode"] = $mode;
-		}else{
-			$_SESSION["currnt_goodsmode"] = 1;
+		if (is_int ( $mode )) {
+			$_SESSION ["currnt_goodsmode"] = $mode;
+		} else {
+			$_SESSION ["currnt_goodsmode"] = 1;
 		}
 
 		// トップページへ
-		$this->smarty->view ( self::tomain );
+		$this->smarty->view ( static::TOMAIN );
 	}
 
 	/**
@@ -296,7 +299,7 @@ class Yoyaku extends CI_Controller {
 		// 初訪問だったら、登録フォームへ
 		// URL直打ちでも登録フォームへ
 		if ($check != 1) {
-			$this->smarty->view ( self::createuser );
+			$this->smarty->view ( static::CREATEUSER );
 			return;
 		}
 
@@ -317,7 +320,7 @@ class Yoyaku extends CI_Controller {
 
 		// チェックしてダメなら戻す
 		if ($vcheck == false) {
-			$this->smarty->view ( self::createuser );
+			$this->smarty->view ( static::CREATEUSER );
 			return;
 		}
 
@@ -334,14 +337,14 @@ class Yoyaku extends CI_Controller {
 			$this->smarty->assign ( "myerrormessage", $myerrormessage );
 
 			// 登録ページヘ戻す
-			$this->smarty->view ( self::createuser );
+			$this->smarty->view ( static::CREATEUSER );
 			return;
 		}
 
 		// ユーザー情報をDBに登録
 		$this->Usermodel->registeruser_i ( $username, $password );
 
-		//sleep(2);//２秒待つ
+		// sleep(2);//２秒待つ
 
 		// ログイン処理をしてuseridを取得する
 		$res = $this->Loginmodel->login_userinfo ( $username, $password );
@@ -363,10 +366,10 @@ class Yoyaku extends CI_Controller {
 	 */
 	public function deleteuser() {
 		// ログインしているか確認
-		self::islogin ();
+		static::islogin ();
 
 		// Postで踏んできたかチェック(不十分だけど)
-		self::isposted ();
+		static::isposted ();
 
 		// 描画先にユーザー名をセット
 		$this->setuserinfo ();
@@ -383,7 +386,7 @@ class Yoyaku extends CI_Controller {
 		$vcheck = $this->form_validation->run ();
 
 		// パスワード入ってない時
-		if ($vcheck==false) {
+		if ($vcheck == false) {
 
 			// エラーメッセージ
 			$myerrormessage = "<p>パスワードを入力してください。</p>";
@@ -418,7 +421,7 @@ class Yoyaku extends CI_Controller {
 
 		// 正常に削除できなかった場合
 		if ($res == false) {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 			return;
 		}
 
@@ -433,10 +436,10 @@ class Yoyaku extends CI_Controller {
 	 */
 	public function changepassword() {
 		// ログインしているか確認
-		self::islogin ();
+		static::islogin ();
 
 		// Postでユーザー名が送られてきたかチェック
-		self::isposted ();
+		static::isposted ();
 
 		// ユーザー名をセッションから取り出す
 		$username = $_SESSION ["username"];
@@ -465,7 +468,7 @@ class Yoyaku extends CI_Controller {
 
 		// エラーが起きたらエラーページを表示
 		if ($res == false) {
-			$this->smarty->view ( self::error );
+			$this->smarty->view ( static::ERROR );
 			return;
 		}
 
@@ -478,7 +481,7 @@ class Yoyaku extends CI_Controller {
 	 */
 	public function profile() {
 		// ログインしているか確認
-		self::islogin ();
+		static::islogin ();
 
 		// ユーザー名をセット
 		$this->setuserinfo ();
@@ -519,7 +522,7 @@ class Yoyaku extends CI_Controller {
 	public function login() {
 
 		// postでこのページに移行したかをチェックする
-		self::isposted ();
+		static::isposted ();
 
 		// ログイン処理を開始する
 
@@ -564,7 +567,7 @@ class Yoyaku extends CI_Controller {
 		$goodslist = $this->Yoyakumodel->loadgoodslist ();
 
 		// Smarty変数にセット
-		self::setsmarty ( "goodslist", $goodslist );
+		static::setsmarty ( "goodslist", $goodslist );
 
 		// 選択中のgoodsidなどが入ります
 		$currentgoodsid = 0;
@@ -581,7 +584,7 @@ class Yoyaku extends CI_Controller {
 			$currentgoodsname = $_SESSION ["current_goodsname"];
 
 			// 予約状況を取得(現在はすべてを取得)
-			$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'],$_SESSION["currnt_goodsmode"]  );
+			$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'], $_SESSION ["currnt_goodsmode"] );
 			$reservationlist = $res;
 
 			// とりあえず、予約リストをセッションに保存しておく
@@ -597,10 +600,10 @@ class Yoyaku extends CI_Controller {
 		}
 
 		// smartyにセット
-		self::setsmarty ( "currentgoodsid", $currentgoodsid );
-		self::setsmarty ( "currentgoodsname", $currentgoodsname );
-		self::setsmarty ( "reservationlist", $reservationlist );
-		self::setsmarty_comment ( "commentlist", $commentlist );
+		static::setsmarty ( "currentgoodsid", $currentgoodsid );
+		static::setsmarty ( "currentgoodsname", $currentgoodsname );
+		static::setsmarty ( "reservationlist", $reservationlist );
+		static::setsmarty_comment ( "commentlist", $commentlist );
 
 		// 予約作成時のエラーメッセージ
 		$yoyaku_error_message = "";
@@ -641,7 +644,7 @@ class Yoyaku extends CI_Controller {
 	 *        	変数
 	 */
 	private function setsmarty_comment($name, $val) {
-		$res = self::myhtmlescape ( $val );
+		$res = static::myhtmlescape ( $val );
 		if (is_array ( $res )) {
 			foreach ( $res as &$r ) {
 				$r ["comment"] = nl2br ( $r ["comment"] );
@@ -660,7 +663,7 @@ class Yoyaku extends CI_Controller {
 	 *        	セットする変数
 	 */
 	private function setsmarty($name, $val) {
-		$this->smarty->assign ( $name, self::myhtmlescape ( $val ) );
+		$this->smarty->assign ( $name, static::myhtmlescape ( $val ) );
 	}
 	/**
 	 * htmlのエスケープをする
@@ -669,7 +672,7 @@ class Yoyaku extends CI_Controller {
 	 */
 	private function myhtmlescape($string) {
 		if (is_array ( $string )) {
-			return array_map ( 'self::myhtmlescape', $string );
+			return array_map ( 'static::myhtmlescape', $string );
 		} else {
 			return htmlspecialchars ( $string, ENT_QUOTES, "UTF-8" );
 		}
@@ -684,7 +687,7 @@ class Yoyaku extends CI_Controller {
 
 		// URLの入力などで直接飛んできたと判定したらダミー挟んでトップページへ飛ばす
 		if ($check != 1) {
-			$this->smarty->view ( self::tomain );
+			$this->smarty->view ( static::TOMAIN );
 		}
 	}
 	/**
@@ -696,7 +699,7 @@ class Yoyaku extends CI_Controller {
 
 		// ログインしていない場合、トップページへ飛ばす
 		if (! $login) {
-			$this->smarty->view ( self::tomain );
+			$this->smarty->view ( static::TOMAIN );
 		}
 	}
 	/**
@@ -713,7 +716,7 @@ class Yoyaku extends CI_Controller {
 	 * smartyの変数としてユーザー名をセットする
 	 */
 	private function setuserinfo() {
-		self::setsmarty ( "username", $_SESSION ["username"] );
-		self::setsmarty ( "userid", $_SESSION ["userid"] );
+		static::setsmarty ( "username", $_SESSION ["username"] );
+		static::setsmarty ( "userid", $_SESSION ["userid"] );
 	}
 }
