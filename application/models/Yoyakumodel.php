@@ -106,8 +106,6 @@ class Yoyakumodel extends CI_Model {
 
 			// 自動採番なので安全
 			$ret ["goodsid"] = $r->id;
-
-			// これコード混じってるかもしれないからエスケープ
 			$ret ["goodsname"] = $r->name;
 
 			return $ret;
@@ -123,7 +121,9 @@ class Yoyakumodel extends CI_Model {
 	function getgoodsreservation($goodsid, $flag) {
 
 		// 生成するSQL
-		$sql = "SELECT sample.goods_reservation.*,sample.user.username FROM sample.goods_reservation left join sample.user on sample.goods_reservation.user_id = sample.user.id where goods_id = ?;";
+		$sql = "SELECT sample.goods_reservation.*,sample.user.username FROM sample.goods_reservation left join sample.user on sample.goods_reservation.user_id = sample.user.id where goods_id = ?";
+
+
 
 		// 実行
 		$res = $this->db->query ( $sql, $goodsid );

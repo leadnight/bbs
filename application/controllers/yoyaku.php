@@ -21,7 +21,7 @@ class Yoyaku extends CI_Controller {
 	 */
 	public function createcomment() {
 		// エラーメッセージ初期化
-		self::unseterrormessage ();
+		static::unseterrormessage ();
 
 		// ログインチェック
 		self::islogin ();
@@ -258,7 +258,7 @@ class Yoyaku extends CI_Controller {
 	 *
 	 * @param unknown $goodsid
 	 */
-	public function loadgoods($goodsid) {
+	public function loadgoods($goodsid,$mode) {
 
 		// エラーメッセージを削除
 		self::unseterrormessage ();
@@ -268,10 +268,16 @@ class Yoyaku extends CI_Controller {
 
 		$res = $this->Yoyakumodel->getgoodsinfo ( $goodsid );
 
-		// 不正な値が渡されていなかったら1つだけ帰ってきてる
+		// 不正な値が渡されていなかったら
 		if (count ( $res ) > 0) {
 			$_SESSION ["current_goodsid"] = $res ["goodsid"];
 			$_SESSION ["current_goodsname"] = $res ["goodsname"];
+		}
+
+		if(is_int($mode)){
+			$_SESSION["currnt_goodsmode"] = $mode;
+		}else{
+			$_SESSION["currnt_goodsmode"] = 1;
 		}
 
 		// トップページへ
@@ -333,10 +339,20 @@ class Yoyaku extends CI_Controller {
 		}
 
 		// ユーザー情報をDBに登録
-		$this->Usermodel->registeruser ( $username, $password );
+		$this->Usermodel->registeruser_i ( $username, $password );
+
+		//sleep(2);//２秒待つ
 
 		// ログイン処理をしてuseridを取得する
 		$res = $this->Loginmodel->login_userinfo ( $username, $password );
+
+		// 成功すればセッション変数にユーザー名をセット
+		// 失敗した場合失敗ページを出力
+		if (count ( $res ) > 0) {
+			// ログイン成功
+			$_SESSION ["username"] = $res ["username"];
+			$_SESSION ["userid"] = $res ["userid"];
+		}
 
 		// 登録完了ページを表示
 		$this->smarty->view ( 'yoyaku/createuser_success.html' );
@@ -367,7 +383,7 @@ class Yoyaku extends CI_Controller {
 		$vcheck = $this->form_validation->run ();
 
 		// パスワード入ってない時
-		if ($vcheck) {
+		if ($vcheck==false) {
 
 			// エラーメッセージ
 			$myerrormessage = "<p>パスワードを入力してください。</p>";
@@ -565,7 +581,7 @@ class Yoyaku extends CI_Controller {
 			$currentgoodsname = $_SESSION ["current_goodsname"];
 
 			// 予約状況を取得(現在はすべてを取得)
-			$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'], 1 );
+			$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'],$_SESSION["currnt_goodsmode"]  );
 			$reservationlist = $res;
 
 			// とりあえず、予約リストをセッションに保存しておく

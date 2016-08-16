@@ -3,9 +3,9 @@ class Usermodel extends CI_Model {
 
 	function deleteuser_i($username){
 		// SQL文
-		$sql = "delete FROM sample.user where username = ?;";
+		$sql = "update sample.user set status = 1 where username = ?;";
 
-		// 削除処理
+		// 削除処理(フラグ立てるだけ)
 		$res = $this->db->query ( $sql ,$username);
 
 		return $res;
@@ -49,20 +49,13 @@ class Usermodel extends CI_Model {
 	function checkuser_i($username) {
 
 		// SQL
-		$sql = "select count(*) as num from sample.user where username = ?;";
+		$sql = "select *from sample.user where username = ?;";
 
 		// SQL実行
 		$res = $this->db->query ( $sql ,$username);
 
-		// 結果を取得
-		$result = $res->row ();
-
 		// 返答
-		$usercount = - 1;
-
-		if ($result != null) {
-			$usercount = $result->num;
-		}
+		$usercount = $res->num_rows();
 
 		return $usercount;
 
@@ -101,6 +94,17 @@ class Usermodel extends CI_Model {
 
 		return $usercount;
 	}
+
+	function registeruser_i($username, $password){
+		// SQL
+		$sql = "insert into sample.user (username,password) values (?,md5(?));";
+
+		// SQL実行
+		$res = $this->db->query ( $sql ,array($username,$password));
+
+		return $res;
+	}
+
 	/**
 	 * ユーザーを新規追加する
 	 *

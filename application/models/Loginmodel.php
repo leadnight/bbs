@@ -22,7 +22,7 @@ class Loginmodel extends CI_Model {
 		$response = array ();
 
 		//SQL文
-		$sql = "select * from sample.user where username=? and password = md5(?)";
+		$sql = "select * from sample.user where username=? and password = md5(?) and status=0";
 
 		// SQL実行
 		$res = $this->db->query ( $sql, array($username,$password));
@@ -42,10 +42,16 @@ class Loginmodel extends CI_Model {
 		return $response;
 	}
 
+	/**
+	 * 引数をエスケープしなくてもよくなったログインチェックモデル
+	 * @param unknown $username
+	 * @param unknown $password
+	 * @return boolean
+	 */
 	function logincheck_i($username,$password){
 		$ret = false;
 
-		$sql = "select * from sample.user where username = ? and password = md5(?)";
+		$sql = "select * from sample.user where username = ? and password = md5(?) and status = 0";
 
 		$res = $this->db->query($sql,array($username,$password));
 
