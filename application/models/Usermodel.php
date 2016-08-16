@@ -1,24 +1,39 @@
 <?php
 class Usermodel extends CI_Model {
 
-	/**
-	 * デフォルトコンストラクター
-	 */
-	function __construct() {
-		parent::__construct ();
+	function deleteuser_i($username){
+		// SQL文
+		$sql = "delete FROM sample.user where username = ?;";
+
+		// 削除処理
+		$res = $this->db->query ( $sql ,$username);
+
+		return $res;
 	}
+
 	function deleteuser($username) {
 		// データベース接続
 		$this->load->database ();
 
-		//SQL文
+		// SQL文
 		$sql = "delete FROM sample.user where username = $username;";
 
-		//削除処理
-		$res = $this->db->query($sql);
+		// 削除処理
+		$res = $this->db->query ( $sql );
 
 		return $res;
 	}
+
+	function updatepassword_i($username,$password){
+		// SQL
+		$sql = "update sample.user set password = md5(?) where username = ?;";
+
+		// SQL実行
+		$res = $this->db->query ( $sql ,array($password,$username));
+
+		return $res;
+	}
+
 	function updatepassword($username, $password) {
 		// データベース接続
 		$this->load->database ();
@@ -31,6 +46,27 @@ class Usermodel extends CI_Model {
 
 		return $res;
 	}
+	function checkuser_i($username) {
+
+		// SQL
+		$sql = "select count(*) as num from sample.user where username = ?;";
+
+		// SQL実行
+		$res = $this->db->query ( $sql ,$username);
+
+		// 結果を取得
+		$result = $res->row ();
+
+		// 返答
+		$usercount = - 1;
+
+		if ($result != null) {
+			$usercount = $result->num;
+		}
+
+		return $usercount;
+
+	}
 
 	/**
 	 * ユーザーDBを検索して重複するユーザー名があるかチェックする
@@ -39,6 +75,8 @@ class Usermodel extends CI_Model {
 	 *        	チェックするユーザー名
 	 * @return number 重複した人数(1以上であれば重複している)
 	 *         でも2とか重複する場合ないはずなんだけどね
+	 *
+	 * @deprecated エスケープを忘れるとインジェクション起きる
 	 */
 	function checkuser($username) {
 

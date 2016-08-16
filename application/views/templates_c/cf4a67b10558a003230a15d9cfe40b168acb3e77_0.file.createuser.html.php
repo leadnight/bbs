@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-10 15:55:51
-  from "/mnt/hgfs/workspace/html/application/views/templates/register.html" */
+/* Smarty version 3.1.29, created on 2016-08-16 10:59:06
+  from "/mnt/hgfs/workspace/html/application/views/templates/yoyaku/createuser.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57aacff76424a0_72078769',
+  'unifunc' => 'content_57b2736a2f5708_27582951',
   'file_dependency' => 
   array (
-    'f450e1b16b38e8c0ca9782471645eda1a24b742e' => 
+    'cf4a67b10558a003230a15d9cfe40b168acb3e77' => 
     array (
-      0 => '/mnt/hgfs/workspace/html/application/views/templates/register.html',
-      1 => 1470811999,
+      0 => '/mnt/hgfs/workspace/html/application/views/templates/yoyaku/createuser.html',
+      1 => 1470985643,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57aacff76424a0_72078769 ($_smarty_tpl) {
+function content_57b2736a2f5708_27582951 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,9 +30,9 @@ function content_57aacff76424a0_72078769 ($_smarty_tpl) {
 <body>
 <h1>ユーザー登録</h1>
 <?php  echo validation_errors();
-echo $_smarty_tpl->tpl_vars['myerrormessage']->value["username"];?>
+echo $_smarty_tpl->tpl_vars['myerrormessage']->value;?>
 
-	<form action="/bbs/register" method="post" accept-charset="utf-8">
+	<form action="/yoyaku/createuser/" method="post" accept-charset="utf-8">
 		<table>
 			<tr>
 				<th>ユーザー名</th>
@@ -43,12 +43,12 @@ echo $_smarty_tpl->tpl_vars['myerrormessage']->value["username"];?>
 				<td><input type="password" name="password"></td>
 			</tr>
 		</table>
-		<input type="hidden" name = "visited" value="1">
+		<input type="hidden" name = "check" value="1">
 		<input type="submit" value="登録">
 
 	</form>
 
-	<p><a href="/bbs/">トップページへ戻る</a></p>
+	<p><a href="/yoyaku/">トップページへ戻る</a></p>
 </body>
 </html><?php }
 }

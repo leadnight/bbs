@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>予約管理ページ</title>
+<style>
+.delete{
+color:red;
+}
+</style>
 </head>
 <body>
 	<h1>予約管理ページ</h1>
@@ -10,12 +15,243 @@
 	<br>
 	<br>
 	<p>
-		<a href="/yoyaku/profile">アカウント設定</a>
+		<a href="/yoyaku/profile/">アカウント設定</a>
 	</p>
 	<br>
 	<br>
-	<form action="/yoyaku/logout" method="post" accept-charset="utf-8">
+	<form action="/yoyaku/logout/" method="post" accept-charset="utf-8">
 		<input type="submit" value="ログアウト">
 	</form>
+	<hr>
+	<h2>予約品目一覧</h2>
+	<p>{$create_goods_error}</p>
+	<form action="/yoyaku/creategoods/" method="post" accept-charset="utf-8">
+		<input type="text" name="title">
+		<input type="hidden"	name="check" value="1">
+		<input type="submit" value="新規作成">
+	</form>
+	<br>
+	<br>
+	{for $i=0 to (count($goodslist)-1)}
+		<a href="/yoyaku/loadgoods/{$goodslist[$i]['id']}">{$goodslist[$i]["id"]}:{$goodslist[$i]["name"]}</a>
+		<br>
+	{/for}
+	<hr>
+
+	{if $currentgoodsid > 0}
+		<h2>新規予約</h2>
+	{$yoyaku_error_message}
+	<form action="/yoyaku/createreservation/" method="post"
+		accept-charset="utf-8">
+		予約開始日時 : <select name="syear">
+			<option value="2016">2016</option>
+			<option value="2017">2017</option>
+			<option value="2018">2018</option>
+			<option value="2019">2019</option>
+			<option value="2020">2020</option>
+		</select>年
+		<SELECT name="smonth">
+			<option value="01">1</option>
+			<option value="02">2</option>
+			<option value="03">3</option>
+			<option value="04">4</option>
+			<option value="05">5</option>
+			<option value="06">6</option>
+			<option value="07">7</option>
+			<option value="08">8</option>
+			<option value="09">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+		</SELECT> 月
+		<SELECT name="sday">
+			<option value="01">1</option>
+			<option value="02">2</option>
+			<option value="03">3</option>
+			<option value="04">4</option>
+			<option value="05">5</option>
+			<option value="06">6</option>
+			<option value="07">7</option>
+			<option value="08">8</option>
+			<option value="09">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+		</select>日
+		<select name="shour">
+			<option value="00">0</option>
+			<option value="01">1</option>
+			<option value="02">2</option>
+			<option value="03">3</option>
+			<option value="04">4</option>
+			<option value="05">5</option>
+			<option value="06">6</option>
+			<option value="07">7</option>
+			<option value="08">8</option>
+			<option value="09">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+		</select> 時
+		<select name="sminute">
+			<option value="00">00</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+			<option value="40">40</option>
+			<option value="50">50</option>
+		</select> 分
+		<br>
+		予約終了日時 :
+		<select name="eyear">
+			<option value="2016">2016</option>
+			<option value="2017">2017</option>
+			<option value="2018">2018</option>
+			<option value="2019">2019</option>
+			<option value="2020">2020</option>
+		</select>年
+		<SELECT name="emonth">
+			<option value="01">1</option>
+			<option value="02">2</option>
+			<option value="03">3</option>
+			<option value="04">4</option>
+			<option value="05">5</option>
+			<option value="06">6</option>
+			<option value="07">7</option>
+			<option value="08">8</option>
+			<option value="09">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+		</SELECT> 月
+		<SELECT name="eday">
+			<option value="01">1</option>
+			<option value="02">2</option>
+			<option value="03">3</option>
+			<option value="04">4</option>
+			<option value="05">5</option>
+			<option value="06">6</option>
+			<option value="07">7</option>
+			<option value="08">8</option>
+			<option value="09">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+			<option value="24">24</option>
+			<option value="25">25</option>
+			<option value="26">26</option>
+			<option value="27">27</option>
+			<option value="28">28</option>
+			<option value="29">29</option>
+			<option value="30">30</option>
+			<option value="31">31</option>
+		</select>日
+		<select name="ehour">
+			<option value="00">0</option>
+			<option value="01">1</option>
+			<option value="02">2</option>
+			<option value="03">3</option>
+			<option value="04">4</option>
+			<option value="05">5</option>
+			<option value="06">6</option>
+			<option value="07">7</option>
+			<option value="08">8</option>
+			<option value="09">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			<option value="19">19</option>
+			<option value="20">20</option>
+			<option value="21">21</option>
+			<option value="22">22</option>
+			<option value="23">23</option>
+		</select> 時
+		<select name="eminute">
+			<option value="00">00</option>
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+			<option value="40">40</option>
+			<option value="50">50</option>
+		</select> 分
+		<br>
+		<input type="hidden" name="check" value="1">
+		<input type="submit" value="予約作成">
+	</form>
+	<hr>
+		<h2>予約状況:{$currentgoodsname}</h2>
+		{* 割りと手抜き *}
+	{/if}
+	{for $i=0 to (count($reservationlist)-1)}
+		<p>{$reservationlist[$i]["id"]} : 予約日時 {$reservationlist[$i]["createtime"]}</p>
+		<p>予約者 : {$reservationlist[$i]["username"]}</p>
+		<p>開始 : {$reservationlist[$i]["start"]}</p>
+		<p>終了 : {$reservationlist[$i]["end"]}</p>
+		{if $reservationlist[$i]["userid"] == $userid}
+			<p class="delete"><a href = "/yoyaku/deletereservation_check/{$reservationlist[$i]['index']}"><b>予約取り消し</b></a></p>
+		{/if}
+	{/for}
+	{if $currentgoodsid > 0}
+	<hr>
+	<h2>コメント : {$currentgoodsname}</h2>
+	{$comment_error}
+		<form action="/yoyaku/createcomment" method="post" accept-charset="utf-8">
+		<textarea rows="10" cols="60" name="comment"></textarea>
+		<input type="hidden" name="check" value="1">
+		<input type="submit" value="書き込み">
+	</form>
+	<hr>
+	{/if}
+	{for $i=0 to (count($commentlist)-1)}
+		<p>ユーザー名 : {$commentlist[$i]["username"]} ({$commentlist[$i]["createtime"]}) </p>
+		<p>{$commentlist[$i]["comment"]}</p>
+	{/for}
 </body>
 </html>

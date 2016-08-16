@@ -18,7 +18,7 @@ input#delete_button {
 	</p>
 	<p>パスワードの変更</p>
 	{php} echo validation_errors(); {/php}
-	<form action="/yoyaku/changepassword" method="post" accept-charset="utf-8">
+	<form action="/yoyaku/changepassword/" method="post" accept-charset="utf-8">
 		<table>
 			<tr>
 				<th>新しいパスワード</th>
@@ -31,7 +31,7 @@ input#delete_button {
 	<br>
 	<br>
 	<p>ユーザーの削除</p>
-	<form action="/yoyaku/deleteuser" method="post" accept-charset="utf-8">
+	<form action="/yoyaku/deleteuser/" method="post" accept-charset="utf-8">
 	{$myerrormessage}
 		<table>
 			<tr>

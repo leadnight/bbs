@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.29, created on 2016-08-12 14:47:26
+/* Smarty version 3.1.29, created on 2016-08-16 09:35:13
   from "/mnt/hgfs/workspace/html/application/views/templates/yoyaku/profile.html" */
 
 if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl, array (
   'has_nocache_code' => false,
   'version' => '3.1.29',
-  'unifunc' => 'content_57ad62eec86168_62977874',
+  'unifunc' => 'content_57b25fc1f34104_83886434',
   'file_dependency' => 
   array (
     '84e3c71579fe880003e7545c5602c8c43cdfd8c9' => 
     array (
       0 => '/mnt/hgfs/workspace/html/application/views/templates/yoyaku/profile.html',
-      1 => 1470978954,
+      1 => 1470985683,
       2 => 'file',
     ),
   ),
@@ -19,7 +19,7 @@ if ($_smarty_tpl->smarty->ext->_validateCompiled->decodeProperties($_smarty_tpl,
   array (
   ),
 ),false)) {
-function content_57ad62eec86168_62977874 ($_smarty_tpl) {
+function content_57b25fc1f34104_83886434 ($_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,14 +35,14 @@ input#delete_button {
 </head>
 <body>
 	ユーザー名 [ <?php echo $_smarty_tpl->tpl_vars['username']->value;?>
- ]
+ ] さん
 	<br>
 	<p>
 		<a href="/yoyaku">トップページへ戻る</a>
 	</p>
 	<p>パスワードの変更</p>
 	<?php  echo validation_errors(); ?>
-	<form action="/yoyaku/changepassword" method="post" accept-charset="utf-8">
+	<form action="/yoyaku/changepassword/" method="post" accept-charset="utf-8">
 		<table>
 			<tr>
 				<th>新しいパスワード</th>
@@ -55,7 +55,7 @@ input#delete_button {
 	<br>
 	<br>
 	<p>ユーザーの削除</p>
-	<form action="/yoyaku/deleteuser" method="post" accept-charset="utf-8">
+	<form action="/yoyaku/deleteuser/" method="post" accept-charset="utf-8">
 	<?php echo $_smarty_tpl->tpl_vars['myerrormessage']->value;?>
 
 		<table>
