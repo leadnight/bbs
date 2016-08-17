@@ -158,6 +158,12 @@ class Yoyaku extends CI_Controller {
 		// 予約リスト(現在出力されている分)
 		$list = $_SESSION ["reservationliost"];
 
+		//存在しないレコードが指定されちゃった場合
+		if(!isset($list [$reservationindex])){
+			$this->smarty->view ( static::ERROR );
+			return;
+		}
+
 		// 引数として与えられた番号を使って削除対象のレコードを表示する
 		$reservation = $list [$reservationindex];
 
@@ -189,11 +195,15 @@ class Yoyaku extends CI_Controller {
 		$shour = $this->input->post ( "shour" );
 		$sminute = $this->input->post ( "sminute" );
 
+		$startarray = array($syear,$smonth,$sday,$shour,$sminute);
+
 		$eyear = $this->input->post ( "eyear" );
 		$emonth = $this->input->post ( "emonth" );
 		$eday = $this->input->post ( "eday" );
 		$ehour = $this->input->post ( "ehour" );
 		$eminute = $this->input->post ( "eminute" );
+
+		$endarray = array($eyear,$emonth,$eday,$ehour,$eminute);
 
 		// 自分で整形
 		$start = $syear . "-" . $smonth . "-" . $sday . " " . $shour . ":" . $sminute . ":00";
@@ -209,6 +219,9 @@ class Yoyaku extends CI_Controller {
 			$endtime = new DateTime ( $end );
 		} catch ( Exception $e ) {
 			$this->smarty->view ( static::ERROR );
+
+			//エラーメッセージをログに吐く
+
 			return;
 		}
 
@@ -241,6 +254,11 @@ class Yoyaku extends CI_Controller {
 		// 予約日時がおかしいのでトップページへ
 		if (isset ( $_SESSION ["yoyaku_error_message"] )) {
 			$this->smarty->view ( static::TOMAIN );
+
+			//セッションに選択された値を保存しておく
+			$_SESSION["startselected"] = $startarray;
+			$_SESSION["endselected"] = $endarray;
+
 			return;
 		}
 
@@ -631,6 +649,21 @@ class Yoyaku extends CI_Controller {
 		}
 
 		$this->smarty->assign ( "comment_error", $comment_error );
+
+		//選択された予約日時を渡す
+		$startselected =  array("","","","","");
+		$endselected = array("","","","","");
+
+		if(isset($_SESSION["startselected"])){
+			$startselected= $_SESSION["startselected"];
+		}
+
+		if(isset($_SESSION["endselected"])){
+			$endselected=$_SESSION["endselected"];
+		}
+
+		static::setsmarty("startselected",$startselected);
+		static::setsmarty("endselected", $endselected);
 
 		// メインページを表示する
 		$this->smarty->view ( "yoyaku/main.html" );

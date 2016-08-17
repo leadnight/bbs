@@ -22,14 +22,10 @@ class CI_Smarty extends SmartyBC {
 			$this->assignByRef ( "ci", $ci );
 		}
 
-		log_message ( 'debug', "Smarty Class Initialized" );
+		//log_message ( 'debug', "Smarty Class Initialized" );
 	}
 
 	function view($template, $data = array(), $return = FALSE) {
-
-		foreach ( $data as $key => $val ) {
-			$this->assign ( $key, $val );
-		}
 
 		foreach ( $data as $key => $val ) {
 			$this->assign ( $key, $val );

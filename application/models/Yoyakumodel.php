@@ -46,14 +46,29 @@ class Yoyakumodel extends CI_Model {
 		return $res;
 	}
 	function deletereservation($userid, $reservationid) {
-		$sql = "delete from sample.goods_reservation where user_id = ? and id = ?;";
+
+		$ret = false;
+
+		//selectで対象のレコードが存在するかチェックする
+		$sql = "select * from sample.goods_reservation where user_id = ? and id = ?;";
 
 		$res = $this->db->query ( $sql, array (
 				$userid,
 				$reservationid
 		) );
 
-		return $res;
+		if($res->num_rows () === 1){
+			$ret = true;
+
+			$sql = "delete from sample.goods_reservation where user_id = ? and id = ?;";
+
+			$res = $this->db->query ( $sql, array (
+					$userid,
+					$reservationid
+			) );
+		}
+
+		return $ret;
 	}
 	function createreservation($userid, $goodsid, $start, $end, $status) {
 		$sql = "insert into sample.goods_reservation (user_id,goods_id,start,end,status,createtime,updatetime) values (?,?,?,?,?,now(),now());";

@@ -32,7 +32,9 @@ input#delete_button {
 	<br>
 	<p>ユーザーの削除</p>
 	<form action="/yoyaku/deleteuser/" method="post" accept-charset="utf-8">
+	{if isset($myerrormessage)}
 	{$myerrormessage}
+	{/if}
 		<table>
 			<tr>
 				<th>パスワード</th>

@@ -44,182 +44,182 @@ color:red;
 	<form action="/yoyaku/createreservation/" method="post"
 		accept-charset="utf-8">
 		予約開始日時 : <select name="syear">
-			<option value="2016">2016</option>
-			<option value="2017">2017</option>
-			<option value="2018">2018</option>
-			<option value="2019">2019</option>
-			<option value="2020">2020</option>
+			<option value="2016"{if $startselected[0]=="2016"} selected {/if}>2016</option>
+			<option value="2017"{if $startselected[0]=="2017"} selected {/if}>2017</option>
+			<option value="2018"{if $startselected[0]=="2018"} selected {/if}>2018</option>
+			<option value="2019"{if $startselected[0]=="2019"} selected {/if}>2019</option>
+			<option value="2020"{if $startselected[0]=="2020"} selected {/if}>2020</option>
 		</select>年
 		<SELECT name="smonth">
-			<option value="01">1</option>
-			<option value="02">2</option>
-			<option value="03">3</option>
-			<option value="04">4</option>
-			<option value="05">5</option>
-			<option value="06">6</option>
-			<option value="07">7</option>
-			<option value="08">8</option>
-			<option value="09">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
+			<option value="01"{if $startselected[1]=="01"} selected {/if}>1</option>
+			<option value="02"{if $startselected[1]=="02"} selected {/if}>2</option>
+			<option value="03"{if $startselected[1]=="03"} selected {/if}>3</option>
+			<option value="04"{if $startselected[1]=="04"} selected {/if}>4</option>
+			<option value="05"{if $startselected[1]=="05"} selected {/if}>5</option>
+			<option value="06"{if $startselected[1]=="06"} selected {/if}>6</option>
+			<option value="07"{if $startselected[1]=="07"} selected {/if}>7</option>
+			<option value="08"{if $startselected[1]=="08"} selected {/if}>8</option>
+			<option value="09"{if $startselected[1]=="09"} selected {/if}>9</option>
+			<option value="10"{if $startselected[1]=="10"} selected {/if}>10</option>
+			<option value="11"{if $startselected[1]=="11"} selected {/if}>11</option>
+			<option value="12"{if $startselected[1]=="12"} selected {/if}>12</option>
 		</SELECT> 月
 		<SELECT name="sday">
-			<option value="01">1</option>
-			<option value="02">2</option>
-			<option value="03">3</option>
-			<option value="04">4</option>
-			<option value="05">5</option>
-			<option value="06">6</option>
-			<option value="07">7</option>
-			<option value="08">8</option>
-			<option value="09">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14</option>
-			<option value="15">15</option>
-			<option value="16">16</option>
-			<option value="17">17</option>
-			<option value="18">18</option>
-			<option value="19">19</option>
-			<option value="20">20</option>
-			<option value="21">21</option>
-			<option value="22">22</option>
-			<option value="23">23</option>
-			<option value="24">24</option>
-			<option value="25">25</option>
-			<option value="26">26</option>
-			<option value="27">27</option>
-			<option value="28">28</option>
-			<option value="29">29</option>
-			<option value="30">30</option>
-			<option value="31">31</option>
+			<option value="01"{if $startselected[2]=="01"} selected {/if}>1</option>
+			<option value="02"{if $startselected[2]=="02"} selected {/if}>2</option>
+			<option value="03"{if $startselected[2]=="03"} selected {/if}>3</option>
+			<option value="04"{if $startselected[2]=="04"} selected {/if}>4</option>
+			<option value="05"{if $startselected[2]=="05"} selected {/if}>5</option>
+			<option value="06"{if $startselected[2]=="06"} selected {/if}>6</option>
+			<option value="07"{if $startselected[2]=="07"} selected {/if}>7</option>
+			<option value="08"{if $startselected[2]=="08"} selected {/if}>8</option>
+			<option value="09"{if $startselected[2]=="09"} selected {/if}>9</option>
+			<option value="10"{if $startselected[2]=="10"} selected {/if}>10</option>
+			<option value="11"{if $startselected[2]=="11"} selected {/if}>11</option>
+			<option value="12"{if $startselected[2]=="12"} selected {/if}>12</option>
+			<option value="13"{if $startselected[2]=="13"} selected {/if}>13</option>
+			<option value="14"{if $startselected[2]=="14"} selected {/if}>14</option>
+			<option value="15"{if $startselected[2]=="15"} selected {/if}>15</option>
+			<option value="16"{if $startselected[2]=="16"} selected {/if}>16</option>
+			<option value="17"{if $startselected[2]=="17"} selected {/if}>17</option>
+			<option value="18"{if $startselected[2]=="18"} selected {/if}>18</option>
+			<option value="19"{if $startselected[2]=="19"} selected {/if}>19</option>
+			<option value="20"{if $startselected[2]=="20"} selected {/if}>20</option>
+			<option value="21"{if $startselected[2]=="21"} selected {/if}>21</option>
+			<option value="22"{if $startselected[2]=="22"} selected {/if}>22</option>
+			<option value="23"{if $startselected[2]=="23"} selected {/if}>23</option>
+			<option value="24"{if $startselected[2]=="24"} selected {/if}>24</option>
+			<option value="25"{if $startselected[2]=="25"} selected {/if}>25</option>
+			<option value="26"{if $startselected[2]=="26"} selected {/if}>26</option>
+			<option value="27"{if $startselected[2]=="27"} selected {/if}>27</option>
+			<option value="28"{if $startselected[2]=="28"} selected {/if}>28</option>
+			<option value="29"{if $startselected[2]=="29"} selected {/if}>29</option>
+			<option value="30"{if $startselected[2]=="30"} selected {/if}>30</option>
+			<option value="31"{if $startselected[2]=="31"} selected {/if}>31</option>
 		</select>日
 		<select name="shour">
-			<option value="00">0</option>
-			<option value="01">1</option>
-			<option value="02">2</option>
-			<option value="03">3</option>
-			<option value="04">4</option>
-			<option value="05">5</option>
-			<option value="06">6</option>
-			<option value="07">7</option>
-			<option value="08">8</option>
-			<option value="09">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14</option>
-			<option value="15">15</option>
-			<option value="16">16</option>
-			<option value="17">17</option>
-			<option value="18">18</option>
-			<option value="19">19</option>
-			<option value="20">20</option>
-			<option value="21">21</option>
-			<option value="22">22</option>
-			<option value="23">23</option>
+			<option value="00"{if $startselected[3]=="00"} selected {/if}>0</option>
+			<option value="01"{if $startselected[3]=="01"} selected {/if}>1</option>
+			<option value="02"{if $startselected[3]=="02"} selected {/if}>2</option>
+			<option value="03"{if $startselected[3]=="03"} selected {/if}>3</option>
+			<option value="04"{if $startselected[3]=="04"} selected {/if}>4</option>
+			<option value="05"{if $startselected[3]=="05"} selected {/if}>5</option>
+			<option value="06"{if $startselected[3]=="06"} selected {/if}>6</option>
+			<option value="07"{if $startselected[3]=="07"} selected {/if}>7</option>
+			<option value="08"{if $startselected[3]=="08"} selected {/if}>8</option>
+			<option value="09"{if $startselected[3]=="09"} selected {/if}>9</option>
+			<option value="10"{if $startselected[3]=="10"} selected {/if}>10</option>
+			<option value="11"{if $startselected[3]=="11"} selected {/if}>11</option>
+			<option value="12"{if $startselected[3]=="12"} selected {/if}>12</option>
+			<option value="13"{if $startselected[3]=="13"} selected {/if}>13</option>
+			<option value="14"{if $startselected[3]=="14"} selected {/if}>14</option>
+			<option value="15"{if $startselected[3]=="15"} selected {/if}>15</option>
+			<option value="16"{if $startselected[3]=="16"} selected {/if}>16</option>
+			<option value="17"{if $startselected[3]=="17"} selected {/if}>17</option>
+			<option value="18"{if $startselected[3]=="18"} selected {/if}>18</option>
+			<option value="19"{if $startselected[3]=="19"} selected {/if}>19</option>
+			<option value="20"{if $startselected[3]=="20"} selected {/if}>20</option>
+			<option value="21"{if $startselected[3]=="21"} selected {/if}>21</option>
+			<option value="22"{if $startselected[3]=="22"} selected {/if}>22</option>
+			<option value="23"{if $startselected[3]=="23"} selected {/if}>23</option>
 		</select> 時
 		<select name="sminute">
-			<option value="00">00</option>
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="30">30</option>
-			<option value="40">40</option>
-			<option value="50">50</option>
+			<option value="00"{if $startselected[4]=="00"} selected {/if}>00</option>
+			<option value="10"{if $startselected[4]=="10"} selected {/if}>10</option>
+			<option value="20"{if $startselected[4]=="20"} selected {/if}>20</option>
+			<option value="30"{if $startselected[4]=="30"} selected {/if}>30</option>
+			<option value="40"{if $startselected[4]=="40"} selected {/if}>40</option>
+			<option value="50"{if $startselected[4]=="50"} selected {/if}>50</option>
 		</select> 分
 		<br>
 		予約終了日時 :
 		<select name="eyear">
-			<option value="2016">2016</option>
-			<option value="2017">2017</option>
-			<option value="2018">2018</option>
-			<option value="2019">2019</option>
-			<option value="2020">2020</option>
+			<option value="2016"{if $endselected[0]=="2016"} selected {/if}>2016</option>
+			<option value="2017"{if $endselected[0]=="2017"} selected {/if}>2017</option>
+			<option value="2018"{if $endselected[0]=="2018"} selected {/if}>2018</option>
+			<option value="2019"{if $endselected[0]=="2019"} selected {/if}>2019</option>
+			<option value="2020"{if $endselected[0]=="2020"} selected {/if}>2020</option>
 		</select>年
 		<SELECT name="emonth">
-			<option value="01">1</option>
-			<option value="02">2</option>
-			<option value="03">3</option>
-			<option value="04">4</option>
-			<option value="05">5</option>
-			<option value="06">6</option>
-			<option value="07">7</option>
-			<option value="08">8</option>
-			<option value="09">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
+			<option value="01"{if $endselected[1]=="01"} selected {/if}>1</option>
+			<option value="02"{if $endselected[1]=="02"} selected {/if}>2</option>
+			<option value="03"{if $endselected[1]=="03"} selected {/if}>3</option>
+			<option value="04"{if $endselected[1]=="04"} selected {/if}>4</option>
+			<option value="05"{if $endselected[1]=="05"} selected {/if}>5</option>
+			<option value="06"{if $endselected[1]=="06"} selected {/if}>6</option>
+			<option value="07"{if $endselected[1]=="07"} selected {/if}>7</option>
+			<option value="08"{if $endselected[1]=="08"} selected {/if}>8</option>
+			<option value="09"{if $endselected[1]=="09"} selected {/if}>9</option>
+			<option value="10"{if $endselected[1]=="10"} selected {/if}>10</option>
+			<option value="11"{if $endselected[1]=="11"} selected {/if}>11</option>
+			<option value="12"{if $endselected[1]=="12"} selected {/if}>12</option>
 		</SELECT> 月
 		<SELECT name="eday">
-			<option value="01">1</option>
-			<option value="02">2</option>
-			<option value="03">3</option>
-			<option value="04">4</option>
-			<option value="05">5</option>
-			<option value="06">6</option>
-			<option value="07">7</option>
-			<option value="08">8</option>
-			<option value="09">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14</option>
-			<option value="15">15</option>
-			<option value="16">16</option>
-			<option value="17">17</option>
-			<option value="18">18</option>
-			<option value="19">19</option>
-			<option value="20">20</option>
-			<option value="21">21</option>
-			<option value="22">22</option>
-			<option value="23">23</option>
-			<option value="24">24</option>
-			<option value="25">25</option>
-			<option value="26">26</option>
-			<option value="27">27</option>
-			<option value="28">28</option>
-			<option value="29">29</option>
-			<option value="30">30</option>
-			<option value="31">31</option>
+			<option value="01"{if $endselected[2]=="01"} selected {/if}>1</option>
+			<option value="02"{if $endselected[2]=="02"} selected {/if}>2</option>
+			<option value="03"{if $endselected[2]=="03"} selected {/if}>3</option>
+			<option value="04"{if $endselected[2]=="04"} selected {/if}>4</option>
+			<option value="05"{if $endselected[2]=="05"} selected {/if}>5</option>
+			<option value="06"{if $endselected[2]=="06"} selected {/if}>6</option>
+			<option value="07"{if $endselected[2]=="07"} selected {/if}>7</option>
+			<option value="08"{if $endselected[2]=="08"} selected {/if}>8</option>
+			<option value="09"{if $endselected[2]=="09"} selected {/if}>9</option>
+			<option value="10"{if $endselected[2]=="10"} selected {/if}>10</option>
+			<option value="11"{if $endselected[2]=="11"} selected {/if}>11</option>
+			<option value="12"{if $endselected[2]=="12"} selected {/if}>12</option>
+			<option value="13"{if $endselected[2]=="13"} selected {/if}>13</option>
+			<option value="14"{if $endselected[2]=="14"} selected {/if}>14</option>
+			<option value="15"{if $endselected[2]=="15"} selected {/if}>15</option>
+			<option value="16"{if $endselected[2]=="16"} selected {/if}>16</option>
+			<option value="17"{if $endselected[2]=="17"} selected {/if}>17</option>
+			<option value="18"{if $endselected[2]=="18"} selected {/if}>18</option>
+			<option value="19"{if $endselected[2]=="19"} selected {/if}>19</option>
+			<option value="20"{if $endselected[2]=="20"} selected {/if}>20</option>
+			<option value="21"{if $endselected[2]=="21"} selected {/if}>21</option>
+			<option value="22"{if $endselected[2]=="22"} selected {/if}>22</option>
+			<option value="23"{if $endselected[2]=="23"} selected {/if}>23</option>
+			<option value="24"{if $endselected[2]=="24"} selected {/if}>24</option>
+			<option value="25"{if $endselected[2]=="25"} selected {/if}>25</option>
+			<option value="26"{if $endselected[2]=="26"} selected {/if}>26</option>
+			<option value="27"{if $endselected[2]=="27"} selected {/if}>27</option>
+			<option value="28"{if $endselected[2]=="28"} selected {/if}>28</option>
+			<option value="29"{if $endselected[2]=="29"} selected {/if}>29</option>
+			<option value="30"{if $endselected[2]=="30"} selected {/if}>30</option>
+			<option value="31"{if $endselected[2]=="31"} selected {/if}>31</option>
 		</select>日
 		<select name="ehour">
-			<option value="00">0</option>
-			<option value="01">1</option>
-			<option value="02">2</option>
-			<option value="03">3</option>
-			<option value="04">4</option>
-			<option value="05">5</option>
-			<option value="06">6</option>
-			<option value="07">7</option>
-			<option value="08">8</option>
-			<option value="09">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14</option>
-			<option value="15">15</option>
-			<option value="16">16</option>
-			<option value="17">17</option>
-			<option value="18">18</option>
-			<option value="19">19</option>
-			<option value="20">20</option>
-			<option value="21">21</option>
-			<option value="22">22</option>
-			<option value="23">23</option>
+			<option value="00"{if $endselected[3]=="00"} selected {/if}>0</option>
+			<option value="01"{if $endselected[3]=="01"} selected {/if}>1</option>
+			<option value="02"{if $endselected[3]=="02"} selected {/if}>2</option>
+			<option value="03"{if $endselected[3]=="03"} selected {/if}>3</option>
+			<option value="04"{if $endselected[3]=="04"} selected {/if}>4</option>
+			<option value="05"{if $endselected[3]=="05"} selected {/if}>5</option>
+			<option value="06"{if $endselected[3]=="06"} selected {/if}>6</option>
+			<option value="07"{if $endselected[3]=="07"} selected {/if}>7</option>
+			<option value="08"{if $endselected[3]=="08"} selected {/if}>8</option>
+			<option value="09"{if $endselected[3]=="09"} selected {/if}>9</option>
+			<option value="10"{if $endselected[3]=="10"} selected {/if}>10</option>
+			<option value="11"{if $endselected[3]=="11"} selected {/if}>11</option>
+			<option value="12"{if $endselected[3]=="12"} selected {/if}>12</option>
+			<option value="13"{if $endselected[3]=="13"} selected {/if}>13</option>
+			<option value="14"{if $endselected[3]=="14"} selected {/if}>14</option>
+			<option value="15"{if $endselected[3]=="15"} selected {/if}>15</option>
+			<option value="16"{if $endselected[3]=="16"} selected {/if}>16</option>
+			<option value="17"{if $endselected[3]=="17"} selected {/if}>17</option>
+			<option value="18"{if $endselected[3]=="18"} selected {/if}>18</option>
+			<option value="19"{if $endselected[3]=="19"} selected {/if}>19</option>
+			<option value="20"{if $endselected[3]=="20"} selected {/if}>20</option>
+			<option value="21"{if $endselected[3]=="21"} selected {/if}>21</option>
+			<option value="22"{if $endselected[3]=="22"} selected {/if}>22</option>
+			<option value="23"{if $endselected[3]=="23"} selected {/if}>23</option>
 		</select> 時
 		<select name="eminute">
-			<option value="00">00</option>
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="30">30</option>
-			<option value="40">40</option>
-			<option value="50">50</option>
+			<option value="00"{if $endselected[4]=="00"} selected {/if}>00</option>
+			<option value="10"{if $endselected[4]=="10"} selected {/if}>10</option>
+			<option value="20"{if $endselected[4]=="20"} selected {/if}>20</option>
+			<option value="30"{if $endselected[4]=="30"} selected {/if}>30</option>
+			<option value="40"{if $endselected[4]=="40"} selected {/if}>40</option>
+			<option value="50"{if $endselected[4]=="50"} selected {/if}>50</option>
 		</select> 分
 		<br>
 		<input type="hidden" name="check" value="1">
