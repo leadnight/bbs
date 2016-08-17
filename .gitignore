@@ -1,2 +1,2 @@
 .htaccess
-application/views/templates_c
+application/views/templates_c/*
