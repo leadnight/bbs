@@ -4,6 +4,8 @@
  *
  */
 class Yoyaku extends CI_Controller {
+
+
 	/**
 	 *
 	 * @var string トップページへのアドレス(ダミー挟む)
@@ -19,6 +21,16 @@ class Yoyaku extends CI_Controller {
 	 * @var string ユーザーページ作成へのアドレス
 	 */
 	const CREATEUSER = "yoyaku/createuser.html";
+
+	const VAL_REQUIRED_MESSAGE = "項目 [ %s ] は必須項目です。";
+
+	function  __construct(){
+		parent::__construct();
+
+		//ライブラリをロード
+		$this->load->library("Yoyaku_string_lib");
+	}
+
 	/**
 	 * コメントを追加する
 	 */
@@ -37,7 +49,7 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'comment', 'コメント', 'trim|required' );
 
 		// メッセージのセット(使ってない)
-		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
+		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE);
 
 		// チェック
 		$vcheck = $this->form_validation->run ();
