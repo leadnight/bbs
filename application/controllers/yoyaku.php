@@ -22,8 +22,6 @@ class Yoyaku extends CI_Controller {
 	 */
 	const CREATEUSER = "yoyaku/createuser.html";
 
-	const VAL_REQUIRED_MESSAGE = "項目 [ %s ] は必須項目です。";
-
 	function  __construct(){
 		parent::__construct();
 
@@ -100,7 +98,7 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'title', 'ユーザ名', 'trim|required' );
 
 		// メッセージのセット(使ってない)
-		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
+		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE );
 
 		// チェック
 		$vcheck = $this->form_validation->run ();
@@ -342,7 +340,7 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'password', 'パスワード', 'trim|required|alpha_numeric' );
 
 		// メッセージのセット
-		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
+		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE );
 		$this->form_validation->set_message ( "alpha_numeric", "項目 [ %s ] は半角英数字で構成されている必要があります。" );
 
 		// チェック
@@ -481,7 +479,7 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'newpassword', '新しいパスワード', 'trim|required|alpha_numeric' );
 
 		// メッセージのセット
-		$this->form_validation->set_message ( "required", "項目 [ %s ] は必須項目です。" );
+		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE);
 		$this->form_validation->set_message ( "alpha_numeric", "項目 [ %s ] は半角英数字で構成されている必要があります。" );
 
 		// チェック
