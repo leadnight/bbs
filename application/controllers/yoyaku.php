@@ -53,7 +53,7 @@ class Yoyaku extends CI_Controller {
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
-		if ($vcheck == false) {
+		if (!$vcheck) {
 
 			$_SESSION ["comment_error"] = "<p>コメントを入れてください</p>";
 
@@ -106,7 +106,7 @@ class Yoyaku extends CI_Controller {
 		// チェックしてダメなら戻す
 		if ($vcheck == false) {
 
-			$_SESSION ["create_goods_error"] = "<p>品目を入れてください</p>";
+			$_SESSION ["create_goods_error"] = Yoyaku_string_lib::CREATE_GOODS_ERROR;
 
 			$this->smarty->view ( Yoyaku_string_lib::TOMAIN);
 			return;
