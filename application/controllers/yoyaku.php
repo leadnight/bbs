@@ -551,6 +551,7 @@ class Yoyaku extends CI_Controller {
 	 * indexコントローラー
 	 */
 	public function index() {
+
 		// ログインしているか確認
 		$login = $this->Loginmodel->islogin ();
 
