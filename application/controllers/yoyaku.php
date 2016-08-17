@@ -108,7 +108,7 @@ class Yoyaku extends CI_Controller {
 
 			$_SESSION ["create_goods_error"] = "<p>品目を入れてください</p>";
 
-			$this->smarty->view ( static::TOMAIN );
+			$this->smarty->view ( Yoyaku_string_lib::TOMAIN);
 			return;
 		}
 		// =====================
