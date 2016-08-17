@@ -143,5 +143,6 @@ $autoload ['language'] = array ();
 $autoload ['model'] = array (
 		'Bbsmodel',
 		'Loginmodel',
-		'Usermodel'
+		'Usermodel',
+		"Yoyakumodel"
 );

@@ -440,7 +440,7 @@ class Bbs extends CI_Controller {
 	public function index() {
 
 		// ログインしているか確認
-		$login = $this->islogin();
+		$login = $this->Loginmodel->islogin();
 
 		// ログインしていない場合、ログイン画面へ飛ばす
 		if (! $login) {

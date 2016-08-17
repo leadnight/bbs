@@ -5,11 +5,10 @@ if (! defined ( 'BASEPATH' ))
 require_once (BASEPATH . 'libraries/Smarty/libs/SmartyBC.class.php');
 class CI_Smarty extends SmartyBC {
 
-	var $debug = false;
-
 	public function __construct() {
 		parent::__construct ();
 
+		//PHPタグを有効化
 		$php_handling = Smarty::PHP_ALLOW;
 
 		$this->compile_dir = APPPATH . "views/templates_c";
@@ -23,23 +22,10 @@ class CI_Smarty extends SmartyBC {
 			$this->assignByRef ( "ci", $ci );
 		}
 
-		log_message ( 'debug', "Smarty Class Initialized" );
+		//log_message ( 'debug', "Smarty Class Initialized" );
 	}
 
-	// デバッグモードをONにするやーつ
-	function setDebug($debug = true) {
-		$this->debug = $debug;
-	}
 	function view($template, $data = array(), $return = FALSE) {
-		//デバッグモードの出力切り替え
-		if (! $this->debug) {
-			$this->error_reporting = false;
-		}
-		$this->error_unassigned = false;
-
-		foreach ( $data as $key => $val ) {
-			$this->assign ( $key, $val );
-		}
 
 		foreach ( $data as $key => $val ) {
 			$this->assign ( $key, $val );
