@@ -90,9 +90,6 @@ class Yoyaku extends CI_Controller {
 		// postでデータが送られてきたかチェック
 		static::isposted ();
 
-		// Postデータの取得
-		$title = $this->input->post ( "title", true );
-
 		// ======バリデーション======
 		// ルール作成
 		$this->form_validation->set_rules ( 'title', 'ユーザ名', 'trim|required' );
@@ -104,7 +101,7 @@ class Yoyaku extends CI_Controller {
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
-		if ($vcheck == false) {
+		if (!$vcheck) {
 
 			$_SESSION ["create_goods_error"] = Yoyaku_string_lib::CREATE_GOODS_ERROR;
 
