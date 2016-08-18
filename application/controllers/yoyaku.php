@@ -6,6 +6,8 @@
 class Yoyaku extends CI_Controller {
 
 
+	//いたずら中
+
 	/**
 	 *
 	 * @var string トップページへのアドレス(ダミー挟む)
