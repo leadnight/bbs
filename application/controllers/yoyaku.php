@@ -5,9 +5,6 @@
  */
 class Yoyaku extends CI_Controller {
 
-
-	//いたずら中
-
 	/**
 	 *
 	 * @var string トップページへのアドレス(ダミー挟む)
@@ -29,6 +26,7 @@ class Yoyaku extends CI_Controller {
 
 		//ライブラリをロード
 		$this->load->library("Yoyaku_string_lib");
+
 	}
 
 	/**
