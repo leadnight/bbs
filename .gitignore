@@ -1,3 +1,8 @@
 .htaccess
+
+#テンプレートキャッシュは管理外
 application/views/templates_c/*
-application/config/*
+
+#configのユーザー設定は管理外
+application/config/my_*
+application/config/*/my_
