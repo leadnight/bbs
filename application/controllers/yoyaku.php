@@ -5,7 +5,6 @@
  */
 class Yoyaku extends CI_Controller {
 
-
 	/**
 	 *
 	 * @var string トップページへのアドレス(ダミー挟む)
@@ -27,6 +26,7 @@ class Yoyaku extends CI_Controller {
 
 		//ライブラリをロード
 		$this->load->library("Yoyaku_string_lib");
+
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Yoyaku extends CI_Controller {
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
-		if ($vcheck == false) {
+		if (!$vcheck) {
 
 			$_SESSION ["comment_error"] = "<p>コメントを入れてください</p>";
 
@@ -90,9 +90,6 @@ class Yoyaku extends CI_Controller {
 		// postでデータが送られてきたかチェック
 		static::isposted ();
 
-		// Postデータの取得
-		$title = $this->input->post ( "title", true );
-
 		// ======バリデーション======
 		// ルール作成
 		$this->form_validation->set_rules ( 'title', 'ユーザ名', 'trim|required' );
@@ -104,11 +101,11 @@ class Yoyaku extends CI_Controller {
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
-		if ($vcheck == false) {
+		if (!$vcheck) {
 
-			$_SESSION ["create_goods_error"] = "<p>品目を入れてください</p>";
+			$_SESSION ["create_goods_error"] = Yoyaku_string_lib::CREATE_GOODS_ERROR;
 
-			$this->smarty->view ( static::TOMAIN );
+			$this->smarty->view ( Yoyaku_string_lib::TOMAIN);
 			return;
 		}
 		// =====================

@@ -1,2 +1,11 @@
 .htaccess
+
+#テンプレートキャッシュは管理外
 application/views/templates_c/*
+
+#configのユーザー設定は管理外
+application/config/my_*
+application/config/*/my_*
+
+#CodeIgniterのlogは管理対象外
+application/logs/*
