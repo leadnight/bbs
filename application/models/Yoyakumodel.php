@@ -136,7 +136,7 @@ class Yoyakumodel extends CI_Model {
 	function getgoodsreservation($goodsid, $flag) {
 
 		// 生成するSQL
-		$sql = "SELECT sample.goods_reservation.*,sample.user.username FROM sample.goods_reservation left join sample.user on sample.goods_reservation.user_id = sample.user.id where goods_id = ? order by start asc";
+		$sql = "SELECT goods_reservation.*,user.username FROM goods_reservation left join user on goods_reservation.user_id = user.id where goods_id = ? order by start asc";
 
 
 
@@ -174,7 +174,7 @@ class Yoyakumodel extends CI_Model {
 		$this->db->order_by ( "id", "asc" );
 
 		// 実行
-		$res = $this->db->get ( "sample.goods_list" );
+		$res = $this->db->get ( "goods_list" );
 
 		// 結果を取り出す
 		$result = $res->result ();
