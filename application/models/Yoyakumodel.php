@@ -3,7 +3,7 @@ class Yoyakumodel extends CI_Model {
 
 	function createcomment($userid, $goodsid, $comment){
 
-		$sql = "insert into sample.goods_comment (user_id,goods_id,createtime,updatetime,comment) values(?,?,now(),now(),?);";
+		$sql = "insert into goods_comment (user_id,goods_id,createtime,updatetime,comment) values(?,?,now(),now(),?);";
 
 		$res=$this->db->query($sql,array($userid,$goodsid,$comment));
 
@@ -12,7 +12,7 @@ class Yoyakumodel extends CI_Model {
 	}
 
 	function getgoodscomment($goodsid) {
-		$sql = "select sample.goods_comment.*,sample.user.username from sample.goods_comment left join sample.user on sample.goods_comment.user_id = sample.user.id where goods_id=? order by createtime asc;";
+		$sql = "select goods_comment.*,user.username from goods_comment left join user on goods_comment.user_id = user.id where goods_id=? order by createtime asc;";
 
 		$res = $this->db->query ( $sql, $goodsid );
 
@@ -39,7 +39,7 @@ class Yoyakumodel extends CI_Model {
 		return $ret;
 	}
 	function creategoods($title) {
-		$sql = "insert into sample.goods_list (name) values (?); ";
+		$sql = "insert into goods_list (name) values (?); ";
 
 		$res = $this->db->query ( $sql, $title );
 
@@ -50,7 +50,7 @@ class Yoyakumodel extends CI_Model {
 		$ret = false;
 
 		//selectで対象のレコードが存在するかチェックする
-		$sql = "select * from sample.goods_reservation where user_id = ? and id = ?;";
+		$sql = "select * from goods_reservation where user_id = ? and id = ?;";
 
 		$res = $this->db->query ( $sql, array (
 				$userid,
@@ -60,7 +60,7 @@ class Yoyakumodel extends CI_Model {
 		if($res->num_rows () === 1){
 			$ret = true;
 
-			$sql = "delete from sample.goods_reservation where user_id = ? and id = ?;";
+			$sql = "delete from goods_reservation where user_id = ? and id = ?;";
 
 			$res = $this->db->query ( $sql, array (
 					$userid,
@@ -71,7 +71,7 @@ class Yoyakumodel extends CI_Model {
 		return $ret;
 	}
 	function createreservation($userid, $goodsid, $start, $end, $status) {
-		$sql = "insert into sample.goods_reservation (user_id,goods_id,start,end,status,createtime,updatetime) values (?,?,?,?,?,now(),now());";
+		$sql = "insert into goods_reservation (user_id,goods_id,start,end,status,createtime,updatetime) values (?,?,?,?,?,now(),now());";
 
 		$res = $this->db->query ( $sql, array (
 				$userid,
@@ -87,7 +87,7 @@ class Yoyakumodel extends CI_Model {
 		$ret = false;
 
 		// SQL文
-		$sql = "select * from sample.goods_reservation where goods_id = ? and ((start <= ? and end > ?) or (end >= ? and start < ?));";
+		$sql = "select * from goods_reservation where goods_id = ? and ((start <= ? and end > ?) or (end >= ? and start < ?));";
 
 		$res = $this->db->query ( $sql, array (
 				$goodsid,
@@ -112,7 +112,7 @@ class Yoyakumodel extends CI_Model {
 	 * @return unknown
 	 */
 	function getgoodsinfo($goodsid) {
-		$sql = "SELECT * FROM sample.goods_list where id = ?;";
+		$sql = "SELECT * FROM goods_list where id = ?;";
 
 		$res = $this->db->query ( $sql, $goodsid );
 

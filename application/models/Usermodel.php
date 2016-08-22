@@ -3,7 +3,7 @@ class Usermodel extends CI_Model {
 
 	function deleteuser_i($username){
 		// SQL文
-		$sql = "update sample.user set status = 1 where username = ?;";
+		$sql = "update user set status = 1 where username = ?;";
 
 		// 削除処理(フラグ立てるだけ)
 		$res = $this->db->query ( $sql ,$username);
@@ -16,7 +16,7 @@ class Usermodel extends CI_Model {
 		$this->load->database ();
 
 		// SQL文
-		$sql = "delete FROM sample.user where username = $username;";
+		$sql = "delete FROM user where username = $username;";
 
 		// 削除処理
 		$res = $this->db->query ( $sql );
@@ -26,7 +26,7 @@ class Usermodel extends CI_Model {
 
 	function updatepassword_i($username,$password){
 		// SQL
-		$sql = "update sample.user set password = md5(?) where username = ?;";
+		$sql = "update user set password = md5(?) where username = ?;";
 
 		// SQL実行
 		$res = $this->db->query ( $sql ,array($password,$username));
@@ -39,7 +39,7 @@ class Usermodel extends CI_Model {
 		$this->load->database ();
 
 		// SQL
-		$sql = "update sample.user set password = md5($password) where username = $username;";
+		$sql = "update user set password = md5($password) where username = $username;";
 
 		// SQL実行
 		$res = $this->db->query ( $sql );
@@ -49,7 +49,7 @@ class Usermodel extends CI_Model {
 	function checkuser_i($username) {
 
 		// SQL
-		$sql = "select *from sample.user where username = ?;";
+		$sql = "select *from user where username = ?;";
 
 		// SQL実行
 		$res = $this->db->query ( $sql ,$username);
@@ -77,7 +77,7 @@ class Usermodel extends CI_Model {
 		$this->load->database ();
 
 		// SQL
-		$sql = "select count(*) as num from sample.user where username = $username;";
+		$sql = "select count(*) as num from user where username = $username;";
 
 		// SQL実行
 		$res = $this->db->query ( $sql );
@@ -97,7 +97,7 @@ class Usermodel extends CI_Model {
 
 	function registeruser_i($username, $password){
 		// SQL
-		$sql = "insert into sample.user (username,password) values (?,md5(?));";
+		$sql = "insert into user (username,password) values (?,md5(?));";
 
 		// SQL実行
 		$res = $this->db->query ( $sql ,array($username,$password));
@@ -119,7 +119,7 @@ class Usermodel extends CI_Model {
 		$this->load->database ();
 
 		// SQL
-		$sql = "insert into sample.user (username,password) values ($username,md5($password));";
+		$sql = "insert into user (username,password) values ($username,md5($password));";
 
 		// SQL実行
 		$res = $this->db->query ( $sql );
