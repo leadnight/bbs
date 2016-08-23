@@ -1,0 +1,10 @@
+	<form action = "/yoyaku/changelanguage" method="post" accept-charset="utf-8">
+		Language Change
+		<select name = "language">
+			<option value="japanese">Japanese</option>
+			<option value="english" selected>English</option>
+		</select>
+		<input type="hidden" name = "URL" value="{php}print((empty($_SERVER["HTTPS"]) ? "http://" : "https://") . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);{/php}">
+		<input type="submit" value="Change">
+	</form>
+	<hr>
