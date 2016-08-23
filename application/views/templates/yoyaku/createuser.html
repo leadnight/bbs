@@ -7,7 +7,9 @@
 <body>
 <h1>ユーザー登録</h1>
 {php} echo validation_errors(); {/php}
+{if isset($myerrormessage)}
 {$myerrormessage}
+{/if}
 	<form action="/yoyaku/createuser/" method="post" accept-charset="utf-8">
 		<table>
 			<tr>

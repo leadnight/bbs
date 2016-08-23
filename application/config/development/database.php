@@ -94,3 +94,7 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+if (file_exists ( "my_database.php" )) {
+	require_once 'my_database.php';
+}

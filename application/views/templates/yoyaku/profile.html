@@ -17,7 +17,11 @@ input#delete_button {
 		<a href="/yoyaku">トップページへ戻る</a>
 	</p>
 	<p>パスワードの変更</p>
-	{php} echo validation_errors(); {/php}
+	{if !isset($myerrormessage)}
+		{php}
+			echo validation_errors();
+		{/php}
+	{/if}
 	<form action="/yoyaku/changepassword/" method="post" accept-charset="utf-8">
 		<table>
 			<tr>

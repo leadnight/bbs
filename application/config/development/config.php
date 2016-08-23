@@ -512,4 +512,6 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-require_once 'my_config.php';
+if (file_exists ( "my_config.php" )) {
+	require_once 'my_config.php';
+}
