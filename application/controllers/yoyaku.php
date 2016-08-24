@@ -4,29 +4,21 @@
  *
  */
 class Yoyaku extends CI_Controller {
+	function __construct() {
+		parent::__construct ();
 
-	/**
-	 *
-	 * @var string トップページへのアドレス(ダミー挟む)
-	 */
-	const TOMAIN = "yoyaku/dummytomain.html";
-	/**
-	 *
-	 * @var string エラーページヘのアドレス
-	 */
-	const ERROR = "yoyaku/error.html";
-	/**
-	 *
-	 * @var string ユーザーページ作成へのアドレス
-	 */
-	const CREATEUSER = "yoyaku/createuser.html";
+		// ライブラリをロード
+		$this->load->library ( "Yoyaku_c_stlib" );
+	}
+	public function changelanguage() {
+		// 選択された言語を取得
+		$_SESSION ["language"] = $this->input->post ( "language" );
 
-	function  __construct(){
-		parent::__construct();
+		// 呼び出し元のURL取得
+		$url = $this->input->post ( "URL" );
 
-		//ライブラリをロード
-		$this->load->library("Yoyaku_string_lib");
-
+		// リダイレクトする
+		redirect ( $url, "reflesh" );
 	}
 
 	/**
@@ -47,17 +39,17 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'comment', 'コメント', 'trim|required' );
 
 		// メッセージのセット(使ってない)
-		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE);
+		$this->form_validation->set_message ( "required", Yoyaku_c_stlib::VAL_REQUIRED_MESSAGE );
 
 		// チェック
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
-		if (!$vcheck) {
+		if (! $vcheck) {
 
-			$_SESSION ["comment_error"] = "<p>コメントを入れてください</p>";
+			$_SESSION ["comment_error"] = Yoyaku_c_stlib::CREATE_COMMENT_ERROR_MESSAGE;
 
-			$this->smarty->view ( static::TOMAIN );
+			static::view_smarty ( Yoyaku_c_stlib::TOMAIN );
 			return;
 		}
 		// =====================
@@ -70,9 +62,9 @@ class Yoyaku extends CI_Controller {
 
 		// 項目作成完了ページを表示
 		if ($res) {
-			$this->smarty->view ( "yoyaku/createcomment_success.html" );
+			static::view_smarty ( Yoyaku_c_stlib::CREATE_COMMENT_SUCCESS );
 		} else {
-			$this->smarty->view ( static::ERROR );
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 		}
 	}
 
@@ -95,17 +87,17 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'title', 'ユーザ名', 'trim|required' );
 
 		// メッセージのセット(使ってない)
-		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE );
+		$this->form_validation->set_message ( "required", Yoyaku_c_stlib::VAL_REQUIRED_MESSAGE );
 
 		// チェック
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
-		if (!$vcheck) {
+		if (! $vcheck) {
 
-			$_SESSION ["create_goods_error"] = Yoyaku_string_lib::CREATE_GOODS_ERROR;
+			$_SESSION ["create_goods_error"] = Yoyaku_c_stlib::CREATE_GOODS_ERROR_MESSAGE;
 
-			$this->smarty->view ( Yoyaku_string_lib::TOMAIN);
+			static::view_smarty ( Yoyaku_c_stlib::TOMAIN );
 			return;
 		}
 		// =====================
@@ -118,9 +110,9 @@ class Yoyaku extends CI_Controller {
 
 		// 項目作成完了ページを表示
 		if ($res) {
-			$this->smarty->view ( "yoyaku/createitem_success.html" );
+			static::view_smarty ( Yoyaku_c_stlib::CREATE_ITEM_SUCCESS );
 		} else {
-			$this->smarty->view ( static::ERROR );
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 		}
 	}
 
@@ -143,9 +135,9 @@ class Yoyaku extends CI_Controller {
 
 		// 結果のページを出力
 		if ($res) {
-			$this->smarty->view ( "yoyaku/deletereservation_success.html" );
+			static::view_smarty ( Yoyaku_c_stlib::DELETE_RESERVATION_SUCCESS );
 		} else {
-			$this->smarty->view ( static::ERROR );
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 		}
 	}
 	/**
@@ -165,9 +157,9 @@ class Yoyaku extends CI_Controller {
 		// 予約リスト(現在出力されている分)
 		$list = $_SESSION ["reservationliost"];
 
-		//存在しないレコードが指定されちゃった場合
-		if(!isset($list [$reservationindex])){
-			$this->smarty->view ( static::ERROR );
+		// 存在しないレコードが指定されちゃった場合
+		if (! isset ( $list [$reservationindex] )) {
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 			return;
 		}
 
@@ -178,7 +170,7 @@ class Yoyaku extends CI_Controller {
 		static::setsmarty ( "reservation", $reservation );
 
 		// 確認ページ出力
-		$this->smarty->view ( "yoyaku/deletereservation.html" );
+		static::view_smarty ( Yoyaku_c_stlib::DELETE_RESERVATION_CHECK );
 	}
 
 	/**
@@ -202,7 +194,13 @@ class Yoyaku extends CI_Controller {
 		$shour = $this->input->post ( "shour" );
 		$sminute = $this->input->post ( "sminute" );
 
-		$startarray = array($syear,$smonth,$sday,$shour,$sminute);
+		$startarray = array (
+				$syear,
+				$smonth,
+				$sday,
+				$shour,
+				$sminute
+		);
 
 		$eyear = $this->input->post ( "eyear" );
 		$emonth = $this->input->post ( "emonth" );
@@ -210,7 +208,13 @@ class Yoyaku extends CI_Controller {
 		$ehour = $this->input->post ( "ehour" );
 		$eminute = $this->input->post ( "eminute" );
 
-		$endarray = array($eyear,$emonth,$eday,$ehour,$eminute);
+		$endarray = array (
+				$eyear,
+				$emonth,
+				$eday,
+				$ehour,
+				$eminute
+		);
 
 		// 自分で整形
 		$start = $syear . "-" . $smonth . "-" . $sday . " " . $shour . ":" . $sminute . ":00";
@@ -225,9 +229,9 @@ class Yoyaku extends CI_Controller {
 			$starttime = new DateTime ( $start );
 			$endtime = new DateTime ( $end );
 		} catch ( Exception $e ) {
-			$this->smarty->view ( static::ERROR );
-
-			//エラーメッセージをログに吐く
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
+			error_log ( Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_POST );
+			log_message ( 'error', Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_POST );
 
 			return;
 		}
@@ -237,34 +241,34 @@ class Yoyaku extends CI_Controller {
 
 		// 開始時間が過去になっている場合
 		if ($starttime < $now) {
-			$_SESSION ["yoyaku_error_message"] = "<p>開始の日時が正しくありません</p>";
+			$_SESSION ["yoyaku_error_message"] = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_START;
 		}
 
 		// 終了時刻が開始時刻とかぶっている
 		if ($starttime >= $endtime) {
 			if (isset ( $_SESSION ["yoyaku_error_message"] )) {
-				$_SESSION ["yoyaku_error_message"] = $_SESSION ["yoyaku_error_message"] . "<p>終了の日時が正しくありません</p>";
+				$_SESSION ["yoyaku_error_message"] = $_SESSION ["yoyaku_error_message"] . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
 			} else {
-				$_SESSION ["yoyaku_error_message"] = "<p>終了の日時が正しくありません</p>";
+				$_SESSION ["yoyaku_error_message"] = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
 			}
 		}
 
 		// 予約重複のチェック
 		if (! $this->Yoyakumodel->checkreservation ( $_SESSION ['current_goodsid'], $start, $end )) {
 			if (isset ( $_SESSION ["yoyaku_error_message"] )) {
-				$_SESSION ["yoyaku_error_message"] = $_SESSION ["yoyaku_error_message"] . "<p>予約が重複しています</p>";
+				$_SESSION ["yoyaku_error_message"] = $_SESSION ["yoyaku_error_message"] . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
 			} else {
-				$_SESSION ["yoyaku_error_message"] = "<p>予約が重複しています</p>";
+				$_SESSION ["yoyaku_error_message"] = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
 			}
 		}
 
 		// 予約日時がおかしいのでトップページへ
 		if (isset ( $_SESSION ["yoyaku_error_message"] )) {
-			$this->smarty->view ( static::TOMAIN );
+			static::view_smarty ( Yoyaku_c_stlib::TOMAIN );
 
-			//セッションに選択された値を保存しておく
-			$_SESSION["startselected"] = $startarray;
-			$_SESSION["endselected"] = $endarray;
+			// セッションに選択された値を保存しておく
+			$_SESSION ["startselected"] = $startarray;
+			$_SESSION ["endselected"] = $endarray;
 
 			return;
 		}
@@ -274,9 +278,9 @@ class Yoyaku extends CI_Controller {
 
 		// 予約完了ページを出力
 		if ($res) {
-			$this->smarty->view ( "yoyaku/yoyaku_success.html" );
+			static::view_smarty ( Yoyaku_c_stlib::CREATE_RESERVATION_SUCCESS );
 		} else {
-			$this->smarty->view ( static::ERROR );
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 		}
 	}
 
@@ -305,11 +309,11 @@ class Yoyaku extends CI_Controller {
 		if (is_int ( $mode )) {
 			$_SESSION ["currnt_goodsmode"] = $mode;
 		} else {
-			$_SESSION ["currnt_goodsmode"] = 1;
+			$_SESSION ["currnt_goodsmode"] = 0;
 		}
 
 		// トップページへ
-		$this->smarty->view ( static::TOMAIN );
+		static::view_smarty ( Yoyaku_c_stlib::TOMAIN );
 	}
 
 	/**
@@ -324,7 +328,7 @@ class Yoyaku extends CI_Controller {
 		// 初訪問だったら、登録フォームへ
 		// URL直打ちでも登録フォームへ
 		if ($check != 1) {
-			$this->smarty->view ( static::CREATEUSER );
+			static::view_smarty ( Yoyaku_c_stlib::CREATE_USER );
 			return;
 		}
 
@@ -337,15 +341,15 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'password', 'パスワード', 'trim|required|alpha_numeric' );
 
 		// メッセージのセット
-		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE );
-		$this->form_validation->set_message ( "alpha_numeric", "項目 [ %s ] は半角英数字で構成されている必要があります。" );
+		$this->form_validation->set_message ( "required", Yoyaku_c_stlib::VAL_REQUIRED_MESSAGE );
+		$this->form_validation->set_message ( "alpha_numeric", Yoyaku_c_stlib::VAL_ALPHA_NUMERIC_MESSAGE );
 
 		// チェック
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメなら戻す
 		if ($vcheck == false) {
-			$this->smarty->view ( static::CREATEUSER );
+			static::view_smarty ( Yoyaku_c_stlib::CREATE_USER );
 			return;
 		}
 
@@ -356,13 +360,13 @@ class Yoyaku extends CI_Controller {
 		if ($usercount >= 1) {
 
 			// エラーメッセージを作成
-			$myerrormessage = "<p>ユーザー名はすでに使われています。</p>";
+			$myerrormessage = Yoyaku_c_stlib::CREATE_USER_ERROR_MESSAGE;
 
 			// セット
 			$this->smarty->assign ( "myerrormessage", $myerrormessage );
 
 			// 登録ページヘ戻す
-			$this->smarty->view ( static::CREATEUSER );
+			static::view_smarty ( Yoyaku_c_stlib::CREATE_USER );
 			return;
 		}
 
@@ -383,7 +387,7 @@ class Yoyaku extends CI_Controller {
 		}
 
 		// 登録完了ページを表示
-		$this->smarty->view ( 'yoyaku/createuser_success.html' );
+		static::view_smarty ( Yoyaku_c_stlib::CREATE_USER_SUCCESS );
 	}
 
 	/**
@@ -414,13 +418,13 @@ class Yoyaku extends CI_Controller {
 		if ($vcheck == false) {
 
 			// エラーメッセージ
-			$myerrormessage = "<p>パスワードを入力してください。</p>";
+			$myerrormessage = Yoyaku_c_stlib::DELETE_USER_ERROR_MESSAGE_ENTER;
 
 			// アサインする
 			$this->smarty->assign ( "myerrormessage", $myerrormessage );
 
 			// プロファイルページを表示させる
-			$this->smarty->view ( 'yoyaku/profile.html' );
+			static::view_smarty ( Yoyaku_c_stlib::USER_PROFILE );
 			return;
 		}
 
@@ -432,12 +436,12 @@ class Yoyaku extends CI_Controller {
 
 		if ($res == false) {
 			// エラーメッセージ
-			$myerrormessage = "<p>パスワードが違います。</p>";
+			$myerrormessage = Yoyaku_c_stlib::DELETE_USER_ERROR_MESSAGE_PASSWORD;
 
 			$this->smarty->assign ( "myerrormessage", $myerrormessage );
 
 			// プロファイルページを表示させる
-			$this->smarty->view ( 'yoyaku/profile.html' );
+			static::view_smarty ( Yoyaku_c_stlib::USER_PROFILE );
 			return;
 		}
 
@@ -446,7 +450,7 @@ class Yoyaku extends CI_Controller {
 
 		// 正常に削除できなかった場合
 		if ($res == false) {
-			$this->smarty->view ( static::ERROR );
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 			return;
 		}
 
@@ -454,7 +458,7 @@ class Yoyaku extends CI_Controller {
 		$this->logout_sub ();
 
 		// アカウント削除ページを表示
-		$this->smarty->view ( "yoyaku/deleteaccount.html" );
+		static::view_smarty ( Yoyaku_c_stlib::USER_DELETE );
 	}
 	/**
 	 * パスワードの変更
@@ -468,6 +472,7 @@ class Yoyaku extends CI_Controller {
 
 		// ユーザー名をセッションから取り出す
 		$username = $_SESSION ["username"];
+		static::setsmarty ( "username", $username );
 
 		// POSTで新しいパスワードを取得
 		$newpassword = $this->input->post ( "newpassword" );
@@ -476,15 +481,15 @@ class Yoyaku extends CI_Controller {
 		$this->form_validation->set_rules ( 'newpassword', '新しいパスワード', 'trim|required|alpha_numeric' );
 
 		// メッセージのセット
-		$this->form_validation->set_message ( "required", Yoyaku_string_lib::VAL_REQUIRED_MESSAGE);
-		$this->form_validation->set_message ( "alpha_numeric", "項目 [ %s ] は半角英数字で構成されている必要があります。" );
+		$this->form_validation->set_message ( "required", Yoyaku_c_stlib::VAL_REQUIRED_MESSAGE );
+		$this->form_validation->set_message ( "alpha_numeric", Yoyaku_c_stlib::VAL_ALPHA_NUMERIC_MESSAGE );
 
 		// チェック
 		$vcheck = $this->form_validation->run ();
 
 		// チェックしてダメならプロファイル変更画面へ戻る
 		if ($vcheck == false) {
-			$this->smarty->view ( "yoyaku/profile.html" );
+			static::view_smarty ( Yoyaku_c_stlib::USER_PROFILE );
 			return;
 		}
 
@@ -493,12 +498,12 @@ class Yoyaku extends CI_Controller {
 
 		// エラーが起きたらエラーページを表示
 		if ($res == false) {
-			$this->smarty->view ( static::ERROR );
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
 			return;
 		}
 
 		// パスワード変更完了ページを表示
-		$this->smarty->view ( "yoyaku/password_changed.html" );
+		static::view_smarty ( Yoyaku_c_stlib::PASSWORD_CHANGED );
 	}
 
 	/**
@@ -512,7 +517,7 @@ class Yoyaku extends CI_Controller {
 		$this->setuserinfo ();
 
 		// プロファイル編集ページを表示
-		$this->smarty->view ( "yoyaku/profile.html" );
+		static::view_smarty ( Yoyaku_c_stlib::USER_PROFILE );
 	}
 
 	/**
@@ -521,7 +526,7 @@ class Yoyaku extends CI_Controller {
 	public function logout() {
 		$this->logout_sub ();
 
-		$this->smarty->view ( "yoyaku/logout.html" );
+		static::view_smarty ( Yoyaku_c_stlib::LOGOUT );
 	}
 
 	/**
@@ -565,10 +570,10 @@ class Yoyaku extends CI_Controller {
 			// ログイン成功
 			$_SESSION ["username"] = $res ["username"];
 			$_SESSION ["userid"] = $res ["userid"];
-			$this->smarty->view ( "yoyaku/login_success.html" );
+			static::view_smarty ( Yoyaku_c_stlib::LOGIN_SUCCESS );
 		} else {
 			// ログイン失敗
-			$this->smarty->view ( "yoyaku/login_fail.html" );
+			static::view_smarty ( Yoyaku_c_stlib::LOGIN_FAIL );
 		}
 	}
 
@@ -582,7 +587,10 @@ class Yoyaku extends CI_Controller {
 
 		// ログインしていない場合、ログイン画面を表示
 		if (! $login) {
-			$this->smarty->view ( "yoyaku/login.html" );
+
+			// 多言語対応
+			static::view_smarty ( Yoyaku_c_stlib::LOGIN );
+
 			return;
 		}
 
@@ -610,6 +618,7 @@ class Yoyaku extends CI_Controller {
 			$currentgoodsname = $_SESSION ["current_goodsname"];
 
 			// 予約状況を取得(現在はすべてを取得)
+
 			$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'], $_SESSION ["currnt_goodsmode"] );
 			$reservationlist = $res;
 
@@ -657,24 +666,68 @@ class Yoyaku extends CI_Controller {
 
 		$this->smarty->assign ( "comment_error", $comment_error );
 
-		//選択された予約日時を渡す
-		$startselected =  array("","","","","");
-		$endselected = array("","","","","");
+		// 選択された予約日時を渡す
+		$startselected = array (
+				"",
+				"",
+				"",
+				"",
+				""
+		);
+		$endselected = array (
+				"",
+				"",
+				"",
+				"",
+				""
+		);
 
-		if(isset($_SESSION["startselected"])){
-			$startselected= $_SESSION["startselected"];
+		if (isset ( $_SESSION ["startselected"] )) {
+			$startselected = $_SESSION ["startselected"];
 		}
 
-		if(isset($_SESSION["endselected"])){
-			$endselected=$_SESSION["endselected"];
+		if (isset ( $_SESSION ["endselected"] )) {
+			$endselected = $_SESSION ["endselected"];
 		}
 
-		static::setsmarty("startselected",$startselected);
-		static::setsmarty("endselected", $endselected);
+		static::setsmarty ( "startselected", $startselected );
+		static::setsmarty ( "endselected", $endselected );
 
 		// メインページを表示する
-		$this->smarty->view ( "yoyaku/main.html" );
+		static::view_smarty ( Yoyaku_c_stlib::MAIN );
 	}
+
+	private function view_smarty($url) {
+		$targeturl = $url;
+
+		if (isset ( $_SESSION ["language"] )) {
+			$lang = $_SESSION ["language"];
+
+			// URLを分解
+			$urlsp = explode ( "/", $url );
+
+			//var_dump ( $urlsp );
+
+			switch ($lang) {
+				case "english" :
+					$targeturl = "yoyaku_english";
+					break;
+				default :
+					$targeturl = "yoyaku";
+			}
+
+			// 新しいURLを生成
+			for($i = 1; $i < count ( $urlsp ); $i ++) {
+				$targeturl = $targeturl . "/" . $urlsp [$i];
+			}
+
+			//var_dump ( $targeturl );
+		}
+
+		//描画
+		$this->smarty->view ( $targeturl );
+	}
+
 	/**
 	 * コメント欄専用のSmarty出力用メソッド
 	 * 改行コードのところに<br>を挟む都合で、エスケープ後に処理をする
@@ -728,7 +781,7 @@ class Yoyaku extends CI_Controller {
 
 		// URLの入力などで直接飛んできたと判定したらダミー挟んでトップページへ飛ばす
 		if ($check != 1) {
-			$this->smarty->view ( static::TOMAIN );
+			static::view_smarty ( Yoyaku_c_stlib::TOMAIN );
 		}
 	}
 	/**
@@ -740,7 +793,7 @@ class Yoyaku extends CI_Controller {
 
 		// ログインしていない場合、トップページへ飛ばす
 		if (! $login) {
-			$this->smarty->view ( static::TOMAIN );
+			static::view_smarty ( Yoyaku_c_stlib::TOMAIN );
 		}
 	}
 	/**

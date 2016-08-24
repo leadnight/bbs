@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ログイン</title>
+<title>Login</title>
 <style>
 input#submit_button {
 	padding: 10px 5px;
@@ -11,22 +11,22 @@ input#submit_button {
 </style>
 </head>
 <body>
-{include file="yoyaku/changelanguage.html"}
-	<h1>予約管理ログイン</h1>
-		<form action="/yoyaku/login/" method="post" accept-charset="utf-8">
+{include file="yoyaku_english/changelanguage.html"}
+	<h1>Reservation system Login</h1>
+	<form action="/yoyaku/login/" method="post" accept-charset="utf-8">
 		<table>
 			<tr>
-				<th>ユーザー名</th>
+				<th>Username</th>
 				<td><input type="text" name="username"></td>
 			</tr>
 			<tr>
-				<th>パスワード</th>
+				<th>Password</th>
 				<td><input type="password" name="password"></td>
 			</tr>
 		</table>
 		<input type = "hidden" name = "check" value ="1">
 		<input type="submit" value="ログイン">
 	</form>
-	<h2><a href = "/yoyaku/createuser">新規登録</a></h2>
+	<h2><a href = "/yoyaku/createuser">Registar</a></h2>
 </body>
 </html>

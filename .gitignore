@@ -1,4 +1,7 @@
-.htaccess
+#Eclipse関係
+.settings/
+.buildpath
+.project
 
 #テンプレートキャッシュは管理外
 application/views/templates_c/*

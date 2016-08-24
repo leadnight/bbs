@@ -1,18 +1,41 @@
 <?php
 class Yoyakumodel extends CI_Model {
 
-	function createcomment($userid, $goodsid, $comment){
+	/**
+	 * デフォルトコンストラクタ
+	 */
+	function  __construct(){
+		parent::__construct();
 
-		$sql = "insert into goods_comment (user_id,goods_id,createtime,updatetime,comment) values(?,?,now(),now(),?);";
-
-		$res=$this->db->query($sql,array($userid,$goodsid,$comment));
-
-		return $res;
-
+		//ライブラリをロード
+		$this->load->library ( "Yoyaku_m_stlib" );
 	}
 
+	/**
+	 * コメントを書き込む
+	 * @param int $userid
+	 * @param int $goodsid
+	 * @param string $comment
+	 * @return DBへのデータ挿入結果
+	 */
+	function createcomment($userid, $goodsid, $comment) {
+		$sql = Yoyaku_m_stlib::CREATE_COMMENT;
+
+		$res = $this->db->query ( $sql, array (
+				$userid,
+				$goodsid,
+				$comment
+		) );
+
+		return $res;
+	}
+	/**
+	 * 品目に結び付けられているコメント一覧を取得する
+	 * @param int $goodsid 品目
+	 */
 	function getgoodscomment($goodsid) {
-		$sql = "select goods_comment.*,user.username from goods_comment left join user on goods_comment.user_id = user.id where goods_id=? order by createtime asc;";
+		//SQLの設定
+		$sql =Yoyaku_m_stlib::GET_GOODS_COMMENT;
 
 		$res = $this->db->query ( $sql, $goodsid );
 
@@ -28,9 +51,9 @@ class Yoyakumodel extends CI_Model {
 			$ret [$counter] ["goodsid"] = $r->goods_id;
 			$ret [$counter] ["createtime"] = $r->createtime;
 			$ret [$counter] ["updatetime"] = $r->updatetime;
+			$ret [$counter] ["comment"] = $r->comment;
 
-			$ret [$counter] ["comment"] =$r->comment;
-
+			//leftjoinしたユーザー名
 			$ret [$counter] ["username"] = $r->username;
 
 			$counter ++;
@@ -39,28 +62,28 @@ class Yoyakumodel extends CI_Model {
 		return $ret;
 	}
 	function creategoods($title) {
-		$sql = "insert into goods_list (name) values (?); ";
+		$sql = Yoyaku_m_stlib::CREATE_GOODS;
 
 		$res = $this->db->query ( $sql, $title );
 
 		return $res;
 	}
 	function deletereservation($userid, $reservationid) {
-
 		$ret = false;
 
-		//selectで対象のレコードが存在するかチェックする
-		$sql = "select * from goods_reservation where user_id = ? and id = ?;";
+		// selectで対象のレコードが存在するかチェックする
+		$sql = Yoyaku_m_stlib::EXIST_RESERVATION;
 
 		$res = $this->db->query ( $sql, array (
 				$userid,
 				$reservationid
 		) );
 
-		if($res->num_rows () === 1){
+		if ($res->num_rows () === 1) {
 			$ret = true;
 
-			$sql = "delete from goods_reservation where user_id = ? and id = ?;";
+			//削除操作(実際にはレコードは削除せず、無効フラグを立てる)
+			$sql = Yoyaku_m_stlib::DELETE_RESERVATION;
 
 			$res = $this->db->query ( $sql, array (
 					$userid,
@@ -71,7 +94,7 @@ class Yoyakumodel extends CI_Model {
 		return $ret;
 	}
 	function createreservation($userid, $goodsid, $start, $end, $status) {
-		$sql = "insert into goods_reservation (user_id,goods_id,start,end,status,createtime,updatetime) values (?,?,?,?,?,now(),now());";
+		$sql = Yoyaku_m_stlib::CREATE_RESERVATION;
 
 		$res = $this->db->query ( $sql, array (
 				$userid,
@@ -87,7 +110,7 @@ class Yoyakumodel extends CI_Model {
 		$ret = false;
 
 		// SQL文
-		$sql = "select * from goods_reservation where goods_id = ? and ((start <= ? and end > ?) or (end >= ? and start < ?));";
+		$sql = Yoyaku_m_stlib::CHECK_RESERVATION;
 
 		$res = $this->db->query ( $sql, array (
 				$goodsid,
@@ -112,7 +135,7 @@ class Yoyakumodel extends CI_Model {
 	 * @return unknown
 	 */
 	function getgoodsinfo($goodsid) {
-		$sql = "SELECT * FROM goods_list where id = ?;";
+		$sql = Yoyaku_m_stlib::GET_GOODS_INFO;
 
 		$res = $this->db->query ( $sql, $goodsid );
 
@@ -136,12 +159,9 @@ class Yoyakumodel extends CI_Model {
 	function getgoodsreservation($goodsid, $flag) {
 
 		// 生成するSQL
-		$sql = "SELECT goods_reservation.*,user.username FROM goods_reservation left join user on goods_reservation.user_id = user.id where goods_id = ? order by start asc";
-
-
-
+		$sql = Yoyaku_m_stlib::GET_GOODS_RESERVATION;
 		// 実行
-		$res = $this->db->query ( $sql, $goodsid );
+		$res = $this->db->query ( $sql, array($goodsid,$flag) );
 
 		$counter = 0;
 		$ret = array ();
@@ -170,11 +190,11 @@ class Yoyakumodel extends CI_Model {
 	 */
 	function loadgoodslist() {
 
-		// SQLの設定
-		$this->db->order_by ( "id", "asc" );
+		// SQL
+		$sql = Yoyaku_m_stlib::GET_GOODS_LISt;
 
-		// 実行
-		$res = $this->db->get ( "goods_list" );
+		//実行
+		$res = $this->db->query ( $sql );
 
 		// 結果を取り出す
 		$result = $res->result ();
