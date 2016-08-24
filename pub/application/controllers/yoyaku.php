@@ -570,9 +570,11 @@ class Yoyaku extends CI_Controller {
 			// ログイン成功
 			$_SESSION ["username"] = $res ["username"];
 			$_SESSION ["userid"] = $res ["userid"];
+			log_message("info", "$username のログイン成功");
 			static::view_smarty ( Yoyaku_c_stlib::LOGIN_SUCCESS );
 		} else {
 			// ログイン失敗
+			log_message("error", "$username のログイン失敗");
 			static::view_smarty ( Yoyaku_c_stlib::LOGIN_FAIL );
 		}
 	}

@@ -4,6 +4,10 @@
 -- ------------------------------------------------------
 -- Server version	5.1.73
 
+drop database if exists yoyaku;
+CREATE DATABASE IF NOT EXISTS yoyaku;
+use yoyaku;
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
