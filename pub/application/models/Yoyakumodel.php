@@ -115,9 +115,14 @@ class Yoyakumodel extends CI_Model {
 		$res = $this->db->query ( $sql, array (
 				$goodsid,
 				$start,
+				$end,
 				$start,
 				$end,
-				$end
+				$start,
+				$end,
+				$start,
+				$end,
+
 		) );
 
 		// 予約が重複してなかった場合
@@ -137,7 +142,7 @@ class Yoyakumodel extends CI_Model {
 	function getgoodsinfo($goodsid) {
 		$sql = Yoyaku_m_stlib::GET_GOODS_INFO;
 
-		$res = $this->db->query ( $sql, $goodsid );
+		$res = $this->db->query ( $sql, $goodsid);
 
 		if ($res->num_rows () == 1) {
 			$r = $res->row ();

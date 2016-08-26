@@ -51,7 +51,7 @@ class Yoyaku_m_stlib {
 	 * @var string
 	 */
 	const CHECK_RESERVATION = "select * from goods_reservation where goods_id = ? and
-			status = 0 and ((start <= ? and end > ?) or (end >= ? and start < ?));";
+			status = 0 and ((start >= ? and start < ?) or (start <= ? and end >= ?) or (end > ? and end <= ?) or (start >= ? and end <= ?));";
 
 	/**
 	 * 予約レコード取得

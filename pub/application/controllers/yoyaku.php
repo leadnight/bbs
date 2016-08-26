@@ -570,11 +570,11 @@ class Yoyaku extends CI_Controller {
 			// ログイン成功
 			$_SESSION ["username"] = $res ["username"];
 			$_SESSION ["userid"] = $res ["userid"];
-			log_message("info", "$username のログイン成功");
+			log_message ( "info", "[$username]のログイン成功" );
 			static::view_smarty ( Yoyaku_c_stlib::LOGIN_SUCCESS );
 		} else {
 			// ログイン失敗
-			log_message("error", "$username のログイン失敗");
+			log_message ( "error", "[$username]のログイン失敗 ($_SERVER[REMOTE_ADDR])" );
 			static::view_smarty ( Yoyaku_c_stlib::LOGIN_FAIL );
 		}
 	}
@@ -606,7 +606,7 @@ class Yoyaku extends CI_Controller {
 		static::setsmarty ( "goodslist", $goodslist );
 
 		// 選択中のgoodsidなどが入ります
-		$currentgoodsid = 0;
+		$currentgoodsid = -1;
 		$currentgoodsname = "";
 
 		// 予約情報一覧
@@ -614,27 +614,28 @@ class Yoyaku extends CI_Controller {
 
 		$commentlist = array ();
 
-		// 予約項目が選択されていた場合に詳細をセット
-		if (isset ( $_SESSION ['current_goodsid'] )) {
-			$currentgoodsid = $_SESSION ['current_goodsid'];
-			$currentgoodsname = $_SESSION ["current_goodsname"];
+		// 旧仕様
+// 		// 予約項目が選択されていた場合に詳細をセット
+// 		if (isset ( $_SESSION ['current_goodsid'] )) {
+// 		$currentgoodsid = $_SESSION ['current_goodsid'];
+// 		$currentgoodsname = $_SESSION ["current_goodsname"];
 
-			// 予約状況を取得(現在はすべてを取得)
+// 		// 予約状況を取得(現在はすべてを取得)
 
-			$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'], $_SESSION ["currnt_goodsmode"] );
-			$reservationlist = $res;
+// 		$res = $this->Yoyakumodel->getgoodsreservation ( $_SESSION ['current_goodsid'], $_SESSION ["currnt_goodsmode"] );
+// 		$reservationlist = $res;
 
-			// とりあえず、予約リストをセッションに保存しておく
-			$_SESSION ["reservationliost"] = $res;
+// 		// とりあえず、予約リストをセッションに保存しておく
+// 		$_SESSION ["reservationliost"] = $res;
 
-			// コメントリストを取得する
+// 		// コメントリストを取得する
 
-			$res2 = $this->Yoyakumodel->getgoodscomment ( $_SESSION ['current_goodsid'] );
-			$commentlist = $res2;
+// 		$res2 = $this->Yoyakumodel->getgoodscomment ( $_SESSION ['current_goodsid'] );
+// 		$commentlist = $res2;
 
-			// コメントリストもとりあえずセッションに持たせておく
-			$_SESSION ["commentlist"] = $res2;
-		}
+// 		// コメントリストもとりあえずセッションに持たせておく
+// 		$_SESSION ["commentlist"] = $res2;
+// 		}
 
 		// smartyにセット
 		static::setsmarty ( "currentgoodsid", $currentgoodsid );
@@ -698,7 +699,6 @@ class Yoyaku extends CI_Controller {
 		// メインページを表示する
 		static::view_smarty ( Yoyaku_c_stlib::MAIN );
 	}
-
 	private function view_smarty($url) {
 		$targeturl = $url;
 
@@ -708,7 +708,7 @@ class Yoyaku extends CI_Controller {
 			// URLを分解
 			$urlsp = explode ( "/", $url );
 
-			//var_dump ( $urlsp );
+			// var_dump ( $urlsp );
 
 			switch ($lang) {
 				case "english" :
@@ -723,10 +723,10 @@ class Yoyaku extends CI_Controller {
 				$targeturl = $targeturl . "/" . $urlsp [$i];
 			}
 
-			//var_dump ( $targeturl );
+			// var_dump ( $targeturl );
 		}
 
-		//描画
+		// 描画
 		$this->smarty->view ( $targeturl );
 	}
 
