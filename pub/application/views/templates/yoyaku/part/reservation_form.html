@@ -1,15 +1,15 @@
-<h2>新規予約</h2>
+<h2>{$title}</h2>
 <div id="reservation_message"></div>
 <form action="javascript:void(0)" method="post" accept-charset="utf-8"
 	id="reservation_main_form">
 	予約開始日時 : <select id="syear">
-		<option value="2016" >2016</option>
+		<option value="2016" selected>2016</option>
 		<option value="2017" >2017</option>
 		<option value="2018" >2018</option>
 		<option value="2019" >2019</option>
 		<option value="2020" >2020</option>
 	</select>年 <SELECT id="smonth">
-		<option value="01" >1</option>
+		<option value="01" selected>1</option>
 		<option value="02" >2</option>
 		<option value="03" >3</option>
 		<option value="04" >4</option>
@@ -22,7 +22,7 @@
 		<option value="11" >11</option>
 		<option value="12" >12</option>
 	</SELECT> 月 <SELECT id="sday">
-		<option value="01" >1</option>
+		<option value="01" selected>1</option>
 		<option value="02" >2</option>
 		<option value="03" >3</option>
 		<option value="04" >4</option>
@@ -54,7 +54,7 @@
 		<option value="30" >30</option>
 		<option value="31" >31</option>
 	</select>日 <select id="shour">
-		<option value="00" >0</option>
+		<option value="00" selected>0</option>
 		<option value="01" >1</option>
 		<option value="02" >2</option>
 		<option value="03" >3</option>
@@ -79,20 +79,20 @@
 		<option value="22" >22</option>
 		<option value="23" >23</option>
 	</select> 時 <select id="sminute">
-		<option value="00" >00</option>
+		<option value="00" selected>00</option>
 		<option value="10" >10</option>
 		<option value="20" >20</option>
 		<option value="30" >30</option>
 		<option value="40" >40</option>
 		<option value="50" >50</option>
 	</select> 分 <br> 予約終了日時 : <select id="eyear">
-		<option value="2016" >2016</option>
+		<option value="2016" selected>2016</option>
 		<option value="2017" >2017</option>
 		<option value="2018" >2018</option>
 		<option value="2019" >2019</option>
 		<option value="2020" >2020</option>
 	</select>年 <SELECT id="emonth">
-		<option value="01" >1</option>
+		<option value="01" selected>1</option>
 		<option value="02" >2</option>
 		<option value="03" >3</option>
 		<option value="04" >4</option>
@@ -105,7 +105,7 @@
 		<option value="11" >11</option>
 		<option value="12" >12</option>
 	</SELECT> 月 <SELECT id="eday">
-		<option value="01" >1</option>
+		<option value="01" selected>1</option>
 		<option value="02" >2</option>
 		<option value="03" >3</option>
 		<option value="04" >4</option>
@@ -137,7 +137,7 @@
 		<option value="30" >30</option>
 		<option value="31" >31</option>
 	</select>日 <select id="ehour">
-		<option value="00" >0</option>
+		<option value="00" selected>0</option>
 		<option value="01" >1</option>
 		<option value="02" >2</option>
 		<option value="03" >3</option>
@@ -162,12 +162,13 @@
 		<option value="22" >22</option>
 		<option value="23" >23</option>
 	</select> 時 <select id="eminute">
-		<option value="00" >00</option>
+		<option value="00" selected>00</option>
 		<option value="10" >10</option>
 		<option value="20" >20</option>
 		<option value="30" >30</option>
 		<option value="40" >40</option>
 		<option value="50" >50</option>
-	</select> 分 <br> <input type="submit" value="予約作成" id="reservation_create">
+	</select> 分 <br>
+	<input type="submit" value="送信" id="reservation_create">
 </form>
 <hr>

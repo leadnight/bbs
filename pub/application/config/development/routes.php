@@ -60,3 +60,11 @@ $route['api/record']['POST']="api/record/post";
 $route['api/record']['PUT']="api/record/put";
 $route['api/record']['DEL']="api/record/del";
 
+//ログイン
+$route['api/login']['GET'] = "api/login/get";
+
+//コメント
+$route['api/comment']['GET']='api/comment/get';
+$route['api/comment']['POST'] = 'api/comment/post';
+
+

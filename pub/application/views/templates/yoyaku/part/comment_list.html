@@ -1,0 +1,6 @@
+<hr>
+{for $i=0 to (count($commentlist)-1)}
+<p>ユーザー名 : {$commentlist[$i]["username"]}
+	({$commentlist[$i]["createtime"]})</p>
+<p>{$commentlist[$i]["comment"]}</p>
+{/for}

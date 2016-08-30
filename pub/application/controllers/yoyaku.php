@@ -10,6 +10,37 @@ class Yoyaku extends CI_Controller {
 		// ライブラリをロード
 		$this->load->library ( "Yoyaku_c_stlib" );
 	}
+
+	public function changereservation($reservationindex){
+		// エラーメッセージ初期化
+		static::unseterrormessage ();
+
+		// ログインチェック
+		static::islogin ();
+
+		// 変更対象の予約データが入ります
+		$reservation = array ();
+
+		// 予約リスト(現在出力されている分)
+		$list = $_SESSION ["reservationliost"];
+
+		// 存在しないレコードが指定されちゃった場合
+		if (! isset ( $list [$reservationindex] )) {
+			static::view_smarty ( Yoyaku_c_stlib::ERROR );
+			return;
+		}
+
+		// 引数として与えられた番号を使って変更対象のレコードを表示する
+		$reservation = $list [$reservationindex];
+
+		// Smartyに予約情報をセット
+		static::setsmarty ( "reservation", $reservation );
+
+		// ページ出力
+		static::view_smarty ("yoyaku/changereservation.html");
+
+	}
+
 	public function changelanguage() {
 		// 選択された言語を取得
 		$_SESSION ["language"] = $this->input->post ( "language" );
@@ -614,11 +645,11 @@ class Yoyaku extends CI_Controller {
 
 		$commentlist = array ();
 
-		// 旧仕様
+// 		// 旧仕様
 // 		// 予約項目が選択されていた場合に詳細をセット
-// 		if (isset ( $_SESSION ['current_goodsid'] )) {
-// 		$currentgoodsid = $_SESSION ['current_goodsid'];
-// 		$currentgoodsname = $_SESSION ["current_goodsname"];
+// 	if (isset ( $_SESSION ['current_goodsid'] )) {
+// 	$currentgoodsid = $_SESSION ['current_goodsid'];
+// 	$currentgoodsname = $_SESSION ["current_goodsname"];
 
 // 		// 予約状況を取得(現在はすべてを取得)
 
@@ -628,14 +659,14 @@ class Yoyaku extends CI_Controller {
 // 		// とりあえず、予約リストをセッションに保存しておく
 // 		$_SESSION ["reservationliost"] = $res;
 
-// 		// コメントリストを取得する
+// 	// コメントリストを取得する
 
 // 		$res2 = $this->Yoyakumodel->getgoodscomment ( $_SESSION ['current_goodsid'] );
 // 		$commentlist = $res2;
 
 // 		// コメントリストもとりあえずセッションに持たせておく
-// 		$_SESSION ["commentlist"] = $res2;
-// 		}
+//  		$_SESSION ["commentlist"] = $res2;
+// 	}
 
 		// smartyにセット
 		static::setsmarty ( "currentgoodsid", $currentgoodsid );

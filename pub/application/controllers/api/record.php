@@ -1,179 +1,342 @@
 <?php
-class Record extends CI_Controller {
-	function __construct() {
-		parent::__construct ();
 
-		// ライブラリをロード
-		$this->load->library ( "Yoyaku_c_stlib" );
-		$this->load->library ( "My_smarty_lib", "", "mylib" );
-	}
-	/**
-	 * 予約フォームを表示するためのAPI
-	 */
-	function reservation_form() {
-		echo $this->smarty->view ( "yoyaku/part/reservation_form.html" );
+class Record extends CI_Controller
+{
+    function __construct()
+    {
+        parent::__construct();
 
-		log_message ( "debug", "予約フォームAPIが呼ばれたよ" );
-	}
-	function get() {
-		$currentgoodsid = - 10;
-		$mode = 0;
+        // ライブラリをロード
+        $this->load->library("Yoyaku_c_stlib");
+        $this->load->library("My_smarty_lib", "", "mylib");
+    }
 
-		// ユーザーIDはセッションに保存されている（はず）
-		$userid = isset ( $_SESSION ["userid"] ) ? $_SESSION ["userid"] : - 1;
+    /**
+     * 予約フォームを表示するためのAPI
+     */
+    function reservation_form()
+    {
+        $title = $this->input->get("title") ? $this->input->get("title") : "新規登録";
 
-		if ($this->input->get ( "goodsid" )) {
-			$currentgoodsid = $this->input->get ( "goodsid" );
+        $this->mylib->setsmarty("title", $title);
 
-			// 渡されてきたIDが無効フラグ(-1)だった場合,セッションから読み込む
-			if (($currentgoodsid == - 1) && (isset ( $_SESSION ['current_goodsid'] ))) {
-				$currentgoodsid = $_SESSION ['current_goodsid'];
-			}
-		}
-		if ($this->input->get ( "mode" )) {
-			$userid = $this->input->get ( "mode" );
-		}
+        echo $this->smarty->view("yoyaku/part/reservation_form.html");
 
-		// 現在選択中の品目名
-		$currntgoodsname = "";
+        log_message("debug", "予約フォームAPIが呼ばれたよ");
+    }
 
-		// 品目情報を取得
-		$res = $this->Yoyakumodel->getgoodsinfo ( $currentgoodsid );
+    /**
+     * 予約一覧を取得するAPI
+     * postで品目IDを送信するか
+     * セッションに保存されている品目IDを利用
+     */
+    function get()
+    {
+        $currentgoodsid = -10;
+        $mode = 0;
 
-		// 品目情報が正常に取得されていた場合
-		if (count ( $res ) > 0) {
-			$currntgoodsname = $res ["goodsname"];
+        // ユーザーIDはセッションに保存されている（はず）
+        $userid = isset ($_SESSION ["userid"]) ? $_SESSION ["userid"] : -1;
 
-			// セッションに現在選択された品目IDと名前を入れる
-			$_SESSION ["current_goodsid"] = $res ["goodsid"];
-			$_SESSION ["current_goodsname"] = $res ["goodsname"];
-		}
+        if ($this->input->get("goodsid")) {
+            $currentgoodsid = $this->input->get("goodsid");
 
-		// 予約一覧を取得
-		$res = $this->Yoyakumodel->getgoodsreservation ( $currentgoodsid, $mode );
-		$reservationlist = $res;
+            // 渡されてきたIDが無効フラグ(-1)だった場合,セッションから読み込む
+            if (($currentgoodsid == -1) && (isset ($_SESSION ['current_goodsid']))) {
+                $currentgoodsid = $_SESSION ['current_goodsid'];
+            }
+        }
+        if ($this->input->get("mode")) {
+            $userid = $this->input->get("mode");
+        }
 
-		// セッションに予約一覧を突っ込んでおく
-		$_SESSION ["reservationliost"] = $res;
+        // 現在選択中の品目名
+        $currntgoodsname = "";
 
-		// 描画のためにセット
-		$this->mylib->setsmarty ( "currentgoodsid", $currentgoodsid );
-		$this->mylib->setsmarty ( "currentgoodsname", $currntgoodsname );
-		$this->mylib->setsmarty ( "reservationlist", $reservationlist );
-		$this->mylib->setsmarty ( "userid", $userid );
+        // 品目情報を取得
+        $res = $this->Yoyakumodel->getgoodsinfo($currentgoodsid);
 
-		echo $this->smarty->view ( "yoyaku/part/reservation_list.html" );
-	}
-	function post() {
+        // 品目情報が正常に取得されていた場合
+        if (count($res) > 0) {
+            $currntgoodsname = $res ["goodsname"];
 
-		// 送信された内容を取得
-		$syear = $this->input->post ( "syear" ) ? $this->input->post ( "syear" ) : - 1;
-		$smonth = $this->input->post ( "smonth" ) ? $this->input->post ( "smonth" ) : - 2;
-		$sday = $this->input->post ( "sday" ) ? $this->input->post ( "sday" ) : - 3;
-		$shour = $this->input->post ( "shour" ) ? $this->input->post ( "shour" ) : - 4;
-		$sminute = $this->input->post ( "sminute" ) ? $this->input->post ( "sminute" ) : - 5;
+            // セッションに現在選択された品目IDと名前を入れる
+            $_SESSION ["current_goodsid"] = $res ["goodsid"];
+            $_SESSION ["current_goodsname"] = $res ["goodsname"];
+        }
 
-		$startarray = array (
-				$syear,
-				$smonth,
-				$sday,
-				$shour,
-				$sminute
-		);
+        // 予約一覧を取得
+        $res = $this->Yoyakumodel->getgoodsreservation($currentgoodsid, $mode);
+        $reservationlist = $res;
 
-		$eyear = $this->input->post ( "eyear" ) ? $this->input->post ( "eyear" ) : - 11;
-		$emonth = $this->input->post ( "emonth" ) ? $this->input->post ( "emonth" ) : - 12;
-		$eday = $this->input->post ( "eday" ) ? $this->input->post ( "eday" ) : - 13;
-		$ehour = $this->input->post ( "ehour" ) ? $this->input->post ( "ehour" ) : - 14;
-		$eminute = $this->input->post ( "eminute" ) ? $this->input->post ( "eminute" ) : - 15;
+        // セッションに予約一覧を突っ込んでおく
+        $_SESSION ["reservationliost"] = $res;
 
-		$endarray = array (
-				$eyear,
-				$emonth,
-				$eday,
-				$ehour,
-				$eminute
-		);
+        // 描画のためにセット
+        $this->mylib->setsmarty("currentgoodsid", $currentgoodsid);
+        $this->mylib->setsmarty("currentgoodsname", $currntgoodsname);
+        $this->mylib->setsmarty("reservationlist", $reservationlist);
+        $this->mylib->setsmarty("userid", $userid);
 
-		// 自分で整形
-		$start = $syear . "-" . $smonth . "-" . $sday . " " . $shour . ":" . $sminute . ":00";
-		$end = $eyear . "-" . $emonth . "-" . $eday . " " . $ehour . ":" . $eminute . ":00";
+        echo $this->smarty->view("yoyaku/part/reservation_list.html");
+    }
 
-		// 仮初期化
-		$starttime = new DateTime ();
-		$endtime = new DateTime ();
+    /**
+     * 予約を作成するAPI
+     */
+    function post()
+    {
 
-		// postされたデータが不正だとエラーを吐くので、try-catchで対処
-		try {
-			$starttime = new DateTime ( $start );
-			$endtime = new DateTime ( $end );
-		} catch ( Exception $e ) {
-			log_message ( "error", "予約日時の生成に失敗しました" );
-			echo "<p>選択肢が正しく選ばれていません。</p>";
-			return;
-		}
+        // 送信された内容を取得
+        $syear = $this->input->post("syear") ? $this->input->post("syear") : -1;
+        $smonth = $this->input->post("smonth") ? $this->input->post("smonth") : -2;
+        $sday = $this->input->post("sday") ? $this->input->post("sday") : -3;
+        $shour = $this->input->post("shour") ? $this->input->post("shour") : -4;
+        $sminute = $this->input->post("sminute") ? $this->input->post("sminute") : -5;
 
-		// 現在の時刻を取得
-		$now = new DateTime ();
+        $startarray = array(
+            $syear,
+            $smonth,
+            $sday,
+            $shour,
+            $sminute
+        );
 
-		// エラーメッセージ
-		unset($errormessage);
+        $eyear = $this->input->post("eyear") ? $this->input->post("eyear") : -11;
+        $emonth = $this->input->post("emonth") ? $this->input->post("emonth") : -12;
+        $eday = $this->input->post("eday") ? $this->input->post("eday") : -13;
+        $ehour = $this->input->post("ehour") ? $this->input->post("ehour") : -14;
+        $eminute = $this->input->post("eminute") ? $this->input->post("eminute") : -15;
 
-		// 開始時間が過去になっている場合
-		if ($starttime < $now) {
-			$errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_START;
-		}
+        $endarray = array(
+            $eyear,
+            $emonth,
+            $eday,
+            $ehour,
+            $eminute
+        );
 
-		// 終了時刻が開始時刻より早い状態
-		if ($starttime >= $endtime) {
-			if (isset ( $errormessage )) {
-				$errormessage = $errormessage . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
-			} else {
-				$errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
-			}
-		}
+        // 自分で整形
+        $start = $syear . "-" . $smonth . "-" . $sday . " " . $shour . ":" . $sminute . ":00";
+        $end = $eyear . "-" . $emonth . "-" . $eday . " " . $ehour . ":" . $eminute . ":00";
 
-		// 予約重複のチェック
-		if (! $this->Yoyakumodel->checkreservation ( $_SESSION ['current_goodsid'], $start, $end )) {
-			if (isset ( $errormessage )) {
-				$errormessage = $errormessage . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
-			} else {
-				$errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
-			}
-		}
+        // 仮初期化
+        $starttime = new DateTime ();
+        $endtime = new DateTime ();
 
-		//一応セーフティーに動かすために
-		//セッションにuseridとcurrent_goodsidが仕込まれてるかチェックする
-		if(!isset( $_SESSION ["userid"], $_SESSION ['current_goodsid'])){
-				if (isset ( $errormessage )) {
-				$errormessage = $errormessage . "エラーが発生しました。";
-			} else {
-				$errormessage = "エラーが発生しました。";
-			}
-			log_message("error", "セッションに必要な情報が格納されていません。");
-		}
+        // postされたデータが不正だとエラーを吐くので、try-catchで対処
+        try {
+            $starttime = new DateTime ($start);
+            $endtime = new DateTime ($end);
+        } catch (Exception $e) {
+            log_message("error", "予約日時の生成に失敗しました");
+            echo "<p>選択肢が正しく選ばれていません。</p>";
+            return;
+        }
 
-		// エラーが発生してる場合
-		if (isset ( $errormessage )) {
-			//エラーメッセージを吐く
-			echo $errormessage;
-		}else{
-			// 予約実行
-			$res = $this->Yoyakumodel->createreservation ( $_SESSION ["userid"], $_SESSION ['current_goodsid'], $start, $end, "0" );
-			//通常メッセージを吐く
-			echo "予約が実行されました。";
-		}
+        // 現在の時刻を取得
+        $now = new DateTime ();
 
+        // エラーメッセージ
+        unset ($errormessage);
 
-	}
-	function put() {
-		var_dump ( $_GET );
-		var_dump ( $_POST );
-		var_dump ( $this->input->raw_input_stream );
+        // 開始時間が過去になっている場合
+        if ($starttime < $now) {
+            $errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_START;
+        }
 
-		echo "PUTが呼ばれました";
-	}
-	function del() {
-		echo "DELが呼ばれました";
-	}
+        // 終了時刻が開始時刻より早い状態
+        if ($starttime >= $endtime) {
+            if (isset ($errormessage)) {
+                $errormessage = $errormessage . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
+            } else {
+                $errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
+            }
+        }
+
+        // 予約重複のチェック
+        if (!$this->Yoyakumodel->checkreservation($_SESSION ['current_goodsid'], $start, $end)) {
+            if (isset ($errormessage)) {
+                $errormessage = $errormessage . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
+            } else {
+                $errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
+            }
+        }
+
+        // 一応セーフティーに動かすために
+        // セッションにuseridとcurrent_goodsidが仕込まれてるかチェックする
+        if (!isset ($_SESSION ["userid"], $_SESSION ['current_goodsid'])) {
+            if (isset ($errormessage)) {
+                $errormessage = $errormessage . "エラーが発生しました。";
+            } else {
+                $errormessage = "エラーが発生しました。";
+            }
+            log_message("error", "セッションに必要な情報が格納されていません。");
+        }
+
+        // エラーが発生してる場合
+        if (isset ($errormessage)) {
+            // エラーメッセージを吐く
+            echo $errormessage;
+        } else {
+            // 予約実行
+            $res = $this->Yoyakumodel->createreservation($_SESSION ["userid"], $_SESSION ['current_goodsid'], $start, $end, "0");
+            // 通常メッセージを吐く
+            echo "予約が実行されました。";
+        }
+    }
+
+    function put()
+    {
+
+        //操作対象の予約IDを取得
+        $reservationid = $this->input->input_stream("reservationid") ? $this->input->input_stream("reservationid") : -100;
+
+        // 送信された内容を取得
+        $syear = $this->input->input_stream("syear") ? $this->input->input_stream("syear") : -1;
+        $smonth = $this->input->input_stream("smonth") ? $this->input->input_stream("smonth") : -2;
+        $sday = $this->input->input_stream("sday") ? $this->input->input_stream("sday") : -3;
+        $shour = $this->input->input_stream("shour") ? $this->input->input_stream("shour") : -4;
+        $sminute = $this->input->input_stream("sminute") ? $this->input->input_stream("sminute") : -5;
+
+        $startarray = array(
+            $syear,
+            $smonth,
+            $sday,
+            $shour,
+            $sminute
+        );
+
+        $eyear = $this->input->input_stream("eyear") ? $this->input->input_stream("eyear") : -11;
+        $emonth = $this->input->input_stream("emonth") ? $this->input->input_stream("emonth") : -12;
+        $eday = $this->input->input_stream("eday") ? $this->input->input_stream("eday") : -13;
+        $ehour = $this->input->input_stream("ehour") ? $this->input->input_stream("ehour") : -14;
+        $eminute = $this->input->input_stream("eminute") ? $this->input->input_stream("eminute") : -15;
+
+        $endarray = array(
+            $eyear,
+            $emonth,
+            $eday,
+            $ehour,
+            $eminute
+        );
+
+        // 自分で整形
+        $start = $syear . "-" . $smonth . "-" . $sday . " " . $shour . ":" . $sminute . ":00";
+        $end = $eyear . "-" . $emonth . "-" . $eday . " " . $ehour . ":" . $eminute . ":00";
+
+        // 仮初期化
+        $starttime = new DateTime ();
+        $endtime = new DateTime ();
+
+        // postされたデータが不正だとエラーを吐くので、try-catchで対処
+        try {
+            $starttime = new DateTime ($start);
+            $endtime = new DateTime ($end);
+        } catch (Exception $e) {
+            log_message("error", "予約日時の生成に失敗しました");
+            echo "<p>選択肢が正しく選ばれていません。</p>";
+            return;
+        }
+
+        // 現在の時刻を取得
+        $now = new DateTime ();
+
+        // エラーメッセージ
+        unset ($errormessage);
+
+        // 開始時間が過去になっている場合
+        if ($starttime < $now) {
+            $errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_START;
+        }
+
+        // 終了時刻が開始時刻より早い状態
+        if ($starttime >= $endtime) {
+            if (isset ($errormessage)) {
+                $errormessage = $errormessage . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
+            } else {
+                $errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_END;
+            }
+        }
+
+        // 予約重複のチェック
+        if (!$this->Yoyakumodel->checkreservation_update($_SESSION ['current_goodsid'], $start, $end, $reservationid)) {
+            if (isset ($errormessage)) {
+                $errormessage = $errormessage . Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
+            } else {
+                $errormessage = Yoyaku_c_stlib::CREATE_RESERVATION_ERROR_MESSAGE_DUPLICATE;
+            }
+        }
+
+        // 一応セーフティーに動かすために
+        // セッションにuseridとcurrent_goodsidが仕込まれてるかチェックする
+        if (!isset ($_SESSION ["userid"], $_SESSION ['current_goodsid'])) {
+            if (isset ($errormessage)) {
+                $errormessage = $errormessage . "エラーが発生しました。";
+            } else {
+                $errormessage = "エラーが発生しました。";
+            }
+            log_message("error", "セッションに必要な情報が格納されていません。");
+        }
+
+        // エラーが発生してる場合
+        if (isset ($errormessage)) {
+            // エラーメッセージを吐く
+            echo $errormessage;
+        } else {
+            // 予約更新
+            $res = $this->Yoyakumodel->updatereservation($_SESSION ["userid"], $reservationid, $start, $end);
+            // 通常メッセージを吐く
+            echo "<p>予約が更新されました。トップページへ移動します。</p>";
+
+            //メッセージを表示させて移動しちゃう
+            $jump = <<<EOM
+<script>
+// 一定時間経過後に指定ページにジャンプする
+mnt = 5; // 何秒後に移動するか？
+url = "/"; // 移動するアドレス
+function jumpPage() {
+  location.href = url;
+}
+setTimeout("jumpPage()",mnt*1000)
+</script>
+EOM;
+
+            echo $jump;
+        }
+    }
+
+    function del()
+    {
+
+        // 消す予定の予約idを取得
+        $reservationid = $this->input->input_stream("reservationid") ? $this->input->input_stream("reservationid") : -1;
+
+        // 消す
+        // 現在ログインしてるユーザーの情報しか消せないようにしてある
+        $res = $this->Yoyakumodel->deletereservation($_SESSION ["userid"], $reservationid);
+
+        // 結果出力
+        if ($res) {
+            echo "<p>予約は削除されました。トップページへ移動します。</p>";
+
+            //メッセージを表示させて移動しちゃう
+            $jump = <<<EOM
+<script>
+// 一定時間経過後に指定ページにジャンプする
+mnt = 5; // 何秒後に移動するか？
+url = "/"; // 移動するアドレス
+function jumpPage() {
+  location.href = url;
+}
+setTimeout("jumpPage()",mnt*1000)
+</script>
+EOM;
+
+            echo $jump;
+        } else {
+            echo "エラーが発生しました。管理者に連絡してください。[コード $reservationid]";
+            log_message("error", "予約削除エラーが発生しまいた。[コード $reservationid]");
+        }
+    }
 }

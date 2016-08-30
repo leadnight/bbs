@@ -1,13 +1,17 @@
-	<h2>予約状況:{$currentgoodsname}</h2>
-	{for $i=0 to (count($reservationlist)-1)}
-	<p>{$reservationlist[$i]["id"]} : 予約日時
-		{$reservationlist[$i]["createtime"]}</p>
-	<p>予約者 : {$reservationlist[$i]["username"]}</p>
-	<p>開始 : {$reservationlist[$i]["start"]}</p>
-	<p>終了 : {$reservationlist[$i]["end"]}</p>
-	{if $reservationlist[$i]["userid"] == $userid}
-	<p class="delete">
-		<a href="/yoyaku/deletereservation_check/{$reservationlist[$i]['index']}"><b>予約取り消し</b></a>
-	</p>
-	{/if}
-	{/for}
+
+<h2>予約状況:{$currentgoodsname}</h2>
+<div id  = "reservation_change_message"></div>
+{for $i=0 to (count($reservationlist)-1)}
+<p>{$reservationlist[$i]["id"]} : 予約日時
+	{$reservationlist[$i]["createtime"]}</p>
+<p>予約者 : {$reservationlist[$i]["username"]}</p>
+<p>開始 : {$reservationlist[$i]["start"]}</p>
+<p>終了 : {$reservationlist[$i]["end"]}</p>
+{if $reservationlist[$i]["userid"] == $userid}
+
+<div>
+	<a href="/yoyaku/deletereservation_check/{$reservationlist[$i]['index']}">予約取り消し</a>
+	<a href ="/yoyaku/changereservation/{$reservationlist[$i]['index']}">予約変更</a>
+</div>
+
+{/if} {/for}

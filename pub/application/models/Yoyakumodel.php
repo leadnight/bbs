@@ -4,15 +4,16 @@ class Yoyakumodel extends CI_Model {
 	/**
 	 * デフォルトコンストラクタ
 	 */
-	function  __construct(){
-		parent::__construct();
+	function __construct() {
+		parent::__construct ();
 
-		//ライブラリをロード
+		// ライブラリをロード
 		$this->load->library ( "Yoyaku_m_stlib" );
 	}
 
 	/**
 	 * コメントを書き込む
+	 *
 	 * @param int $userid
 	 * @param int $goodsid
 	 * @param string $comment
@@ -31,11 +32,13 @@ class Yoyakumodel extends CI_Model {
 	}
 	/**
 	 * 品目に結び付けられているコメント一覧を取得する
-	 * @param int $goodsid 品目
+	 *
+	 * @param int $goodsid
+	 *        	品目
 	 */
 	function getgoodscomment($goodsid) {
-		//SQLの設定
-		$sql =Yoyaku_m_stlib::GET_GOODS_COMMENT;
+		// SQLの設定
+		$sql = Yoyaku_m_stlib::GET_GOODS_COMMENT;
 
 		$res = $this->db->query ( $sql, $goodsid );
 
@@ -53,7 +56,7 @@ class Yoyakumodel extends CI_Model {
 			$ret [$counter] ["updatetime"] = $r->updatetime;
 			$ret [$counter] ["comment"] = $r->comment;
 
-			//leftjoinしたユーザー名
+			// leftjoinしたユーザー名
 			$ret [$counter] ["username"] = $r->username;
 
 			$counter ++;
@@ -82,10 +85,37 @@ class Yoyakumodel extends CI_Model {
 		if ($res->num_rows () === 1) {
 			$ret = true;
 
-			//削除操作(実際にはレコードは削除せず、無効フラグを立てる)
+			// 削除操作(実際にはレコードは削除せず、無効フラグを立てる)
 			$sql = Yoyaku_m_stlib::DELETE_RESERVATION;
 
 			$res = $this->db->query ( $sql, array (
+					$userid,
+					$reservationid
+			) );
+		}
+
+		return $ret;
+	}
+	function updatereservation($userid, $reservationid, $start, $end) {
+		$ret = false;
+
+		// selectで対象のレコードが存在するかチェックする
+		$sql = Yoyaku_m_stlib::EXIST_RESERVATION;
+
+		$res = $this->db->query ( $sql, array (
+				$userid,
+				$reservationid
+		) );
+
+		if ($res->num_rows () === 1) {
+			$ret = true;
+
+			// 更新
+			$sql = Yoyaku_m_stlib::UPDATE_RESERVATION;
+
+			$res = $this->db->query ( $sql, array (
+					$start,
+					$end,
 					$userid,
 					$reservationid
 			) );
@@ -106,6 +136,32 @@ class Yoyakumodel extends CI_Model {
 
 		return $res;
 	}
+	function checkreservation_update($goodsid, $start, $end, $currntid) {
+		$ret = false;
+
+		// SQL文
+		$sql = Yoyaku_m_stlib::CHECK_RESERVATION_UPDATE;
+
+		$res = $this->db->query ( $sql, array (
+				$goodsid,
+				$start,
+				$end,
+				$start,
+				$end,
+				$start,
+				$end,
+				$start,
+				$end,
+				$currntid
+		) );
+
+		// 予約が重複してなかった場合
+		if ($res->num_rows () == 0) {
+			$ret = true;
+		}
+
+		return $ret;
+	}
 	function checkreservation($goodsid, $start, $end) {
 		$ret = false;
 
@@ -121,8 +177,7 @@ class Yoyakumodel extends CI_Model {
 				$start,
 				$end,
 				$start,
-				$end,
-
+				$end
 		) );
 
 		// 予約が重複してなかった場合
@@ -142,7 +197,7 @@ class Yoyakumodel extends CI_Model {
 	function getgoodsinfo($goodsid) {
 		$sql = Yoyaku_m_stlib::GET_GOODS_INFO;
 
-		$res = $this->db->query ( $sql, $goodsid);
+		$res = $this->db->query ( $sql, $goodsid );
 
 		if ($res->num_rows () == 1) {
 			$r = $res->row ();
@@ -166,7 +221,10 @@ class Yoyakumodel extends CI_Model {
 		// 生成するSQL
 		$sql = Yoyaku_m_stlib::GET_GOODS_RESERVATION;
 		// 実行
-		$res = $this->db->query ( $sql, array($goodsid,$flag) );
+		$res = $this->db->query ( $sql, array (
+				$goodsid,
+				$flag
+		) );
 
 		$counter = 0;
 		$ret = array ();
@@ -198,7 +256,7 @@ class Yoyakumodel extends CI_Model {
 		// SQL
 		$sql = Yoyaku_m_stlib::GET_GOODS_LISt;
 
-		//実行
+		// 実行
 		$res = $this->db->query ( $sql );
 
 		// 結果を取り出す

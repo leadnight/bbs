@@ -41,26 +41,13 @@
 	{/for}
 	<hr>
 
-	<div id = "reservation_form"></div>
+	<div id="reservation_form"></div>
 
 	<div id="reservation_list"></div>
 
-	{if $currentgoodsid > 0}
-	<hr>
-	<h2>コメント : {$currentgoodsname}</h2>
-	{$comment_error}
-	<form action="/yoyaku/createcomment" method="post"
-		accept-charset="utf-8">
-		<textarea rows="10" cols="60" name="comment"></textarea>
-		<input type="hidden" name="check" value="1"> <input
-			type="submit" value="書き込み">
-	</form>
-	<hr>
-	{for $i=0 to (count($commentlist)-1)}
-	<p>ユーザー名 : {$commentlist[$i]["username"]}
-		({$commentlist[$i]["createtime"]})</p>
-	<p>{$commentlist[$i]["comment"]}</p>
-	{/for}
-	{/if}
+	<div id = "comment_form"></div>
+
+	<div id="comment_list"></div>
+
 </body>
 </html>

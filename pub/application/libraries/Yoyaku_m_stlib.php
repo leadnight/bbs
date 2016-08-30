@@ -40,6 +40,12 @@ class Yoyaku_m_stlib {
 	const DELETE_RESERVATION ="update goods_reservation set status=-1 where user_id = ? and id = ?;";
 
 	/**
+	 * 予約レコード更新
+	 * @var string
+	 */
+	const UPDATE_RESERVATION = "update goods_reservation set start = ?,end=?,updatetime=now() where user_id=? and id = ?";
+
+	/**
 	 * 予約レコード作成
 	 * @var string
 	 */
@@ -52,6 +58,13 @@ class Yoyaku_m_stlib {
 	 */
 	const CHECK_RESERVATION = "select * from goods_reservation where goods_id = ? and
 			status = 0 and ((start >= ? and start < ?) or (start <= ? and end >= ?) or (end > ? and end <= ?) or (start >= ? and end <= ?));";
+
+	/**
+	 * 予約レコード重複チェック
+	 * @var string
+	 */
+	const CHECK_RESERVATION_UPDATE = "select * from goods_reservation where goods_id = ? and
+			status = 0 and ((start >= ? and start < ?) or (start <= ? and end >= ?) or (end > ? and end <= ?) or (start >= ? and end <= ?)) and (not id = ?);";
 
 	/**
 	 * 予約レコード取得

@@ -9,24 +9,45 @@ input#submit_button {
 	font-size: 1.2em;
 }
 </style>
+<script type="text/javascript" src="/js/jquery-3.1.0.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//サブミットに仕込む
+		$("#login").click(function(){
+			$.ajax({
+				url : "/api/login",
+				type : "get",
+				data:{
+					username:$("#username").val() ? $("#username").val() : -1000,
+					password:$("#password").val() ? $("#password").val() : -1001,
+				}
+			}).done(function(message){
+				$("#login_message").html(message);
+			})
+		})
+	})
+</script>
 </head>
 <body>
-{include file="yoyaku/changelanguage.html"}
+	{include file="yoyaku/changelanguage.html"}
 	<h1>予約管理ログイン</h1>
-		<form action="/yoyaku/login/" method="post" accept-charset="utf-8">
+	<div id = "login_message"></div>
+	<form action="javascript:void(0)" method="post" accept-charset="utf-8">
 		<table>
 			<tr>
 				<th>ユーザー名</th>
-				<td><input type="text" name="username"></td>
+				<td><input type="text" name="username" id = "username"></td>
 			</tr>
 			<tr>
 				<th>パスワード</th>
-				<td><input type="password" name="password"></td>
+				<td><input type="password" name="password" id = "password"></td>
 			</tr>
 		</table>
-		<input type = "hidden" name = "check" value ="1">
-		<input type="submit" value="ログイン">
+		<input type="submit" value="ログイン" id="login">
 	</form>
-	<h2><a href = "/yoyaku/createuser">新規登録</a></h2>
+	<hr>
+	<h2>
+		<a href="/yoyaku/createuser">新規登録</a>
+	</h2>
 </body>
 </html>
