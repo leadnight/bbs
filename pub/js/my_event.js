@@ -96,11 +96,20 @@ var callform = function() {
 					eday:$("#eday").val() ? $("#eday").val() : -2002,
 					ehour:$("#ehour").val() ? $("#ehour").val() :-2003,
 					eminute: $("#eminute").val() ?$("#eminute").val() :-2004
-				}
-			}).done(function(message) {
+				},
+				dataType:"json",
+			}).done(function(data) {
+
 
 				//予約実行結果を表示する
-				$("#reservation_message").html(message);
+
+				if(data["response"]){
+					$("#reservation_message").html("成功:");
+				}else{
+					$("#reservation_message").html("失敗:");
+				}
+
+				$("#reservation_message").append(data["message"]);
 
 				//予約リストを表示し直す
 				callreservation(-1);

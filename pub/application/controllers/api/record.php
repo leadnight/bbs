@@ -87,6 +87,9 @@ class Record extends CI_Controller
     function post()
     {
 
+    	//レスポンス用の配列
+    	$resary =array();
+
         // 送信された内容を取得
         $syear = $this->input->post("syear") ? $this->input->post("syear") : -1;
         $smonth = $this->input->post("smonth") ? $this->input->post("smonth") : -2;
@@ -130,7 +133,11 @@ class Record extends CI_Controller
             $endtime = new DateTime ($end);
         } catch (Exception $e) {
             log_message("error", "予約日時の生成に失敗しました");
-            echo "<p>選択肢が正しく選ばれていません。</p>";
+
+            $resary["response"] = false;
+            $resary["message"]="予約日時が選択されていません。";
+
+            echo json_encode( $resary);
             return;
         }
 
@@ -176,14 +183,19 @@ class Record extends CI_Controller
 
         // エラーが発生してる場合
         if (isset ($errormessage)) {
-            // エラーメッセージを吐く
-            echo $errormessage;
+
+        	$resary["response"] = false;
+        	$resary["message"]=$errormessage;
+
         } else {
             // 予約実行
             $res = $this->Yoyakumodel->createreservation($_SESSION ["userid"], $_SESSION ['current_goodsid'], $start, $end, "0");
-            // 通常メッセージを吐く
-            echo "予約が実行されました。";
+
+            $resary["response"] = true;
+            $resary["message"]="予約が完了しました。";
         }
+
+        echo json_encode($resary);
     }
 
     function put()
@@ -333,7 +345,7 @@ setTimeout("jumpPage()",mnt*1000)
 </script>
 EOM;
 
-            echo $jump;
+            //echo $jump;
         } else {
             echo "エラーが発生しました。管理者に連絡してください。[コード $reservationid]";
             log_message("error", "予約削除エラーが発生しまいた。[コード $reservationid]");
